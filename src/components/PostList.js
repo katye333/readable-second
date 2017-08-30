@@ -21,7 +21,6 @@ class PostList extends Component {
 		}
     }
 	render() {
-		console.log(this.props.posts)
 		return (
 			<div className="row">
 				<div className="col-sm-6">
@@ -29,10 +28,11 @@ class PostList extends Component {
 						{this.props.posts.map((post) => {
 							return (
 								<ul key={post.id}>
-									<li><strong>Title</strong>: <Link to={"/posts/"+post.id}>{post.title}</Link></li>
+									<li><strong>Title</strong>: <Link to={'/posts/'+ post.id}>{post.title}</Link></li>
 									<li><strong>Author</strong>: {post.author}</li>
 									<li><strong>Timestamp</strong>: {formatDate(post.timestamp)}</li>
 									<li><strong>VoteScore</strong>: {post.voteScore}</li>
+									<li><strong>Category</strong>: {post.category}</li>
 								</ul>
 							);
 						})}
