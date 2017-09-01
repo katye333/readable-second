@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { PostAPI } from '../utils/api';
 import { getPosts } from '../actions';
 import { formatDate } from '../utils/helpers';
+import AddPost from './AddPost';
 
 class PostList extends Component {
 	componentDidMount() {
@@ -38,6 +39,8 @@ class PostList extends Component {
 						})}
 					</div>
 				</div>
+
+				<Link to="newPost" className="btn btn-primary">Create New Post</Link>
 			</div>
 		);
 	}
