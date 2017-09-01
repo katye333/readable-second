@@ -23,24 +23,47 @@ class PostList extends Component {
     }
 	render() {
 		return (
-			<div className="row">
+			<div>
 				<div className="col-sm-6">
-					<div>
+					
 						{this.props.posts.map((post) => {
 							return (
-								<ul key={post.id}>
-									<li><strong>Title</strong>: <Link to={'/posts/'+ post.id}>{post.title}</Link></li>
-									<li><strong>Author</strong>: {post.author}</li>
-									<li><strong>Timestamp</strong>: {formatDate(post.timestamp)}</li>
-									<li><strong>VoteScore</strong>: {post.voteScore}</li>
-									<li><strong>Category</strong>: {post.category}</li>
-								</ul>
+								<div className="panel panel-default">
+									<div className="panel-heading" key={post.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+										<div style={{ display: 'flex', flexDirection: 'row' }}>
+											<span className="glyphicon glyphicon-user" style={{ padding: '10px', paddingTop: '20px' }}></span>
+											<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
+												<div style={{ flexDirection: 'row' }}>
+													<strong>Title</strong>: <Link to={'/posts/'+ post.id}>{post.title}</Link>
+												</div>
+												<div><strong>Author</strong>: {post.author}</div>
+											</div>
+										</div>
+										<div>
+											<div style={{ display: 'flex', flexDirection: 'row' }}>
+												<span style={{ paddingTop: '20px', fontSize: '18px' }}>{post.voteScore}</span>
+												<div style={{ display: 'flex', flexDirection: 'column', marginTop: '5px' }}>
+													<span className="glyphicon glyphicon-arrow-up" style={{ padding: '5px', fontSize: '20px', color: '#1fc51f' }}></span>
+													<span className="glyphicon glyphicon-arrow-down" style={{ padding: '5px', fontSize: '20px', color: 'red' }}></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div className="panel-body">
+										<div><strong>Timestamp</strong>: {formatDate(post.timestamp)}</div>
+										<div><strong>VoteScore</strong>: {post.voteScore}</div>
+										<div><strong>Category</strong>: {post.category}</div>
+										<div>{post.body}</div>
+									</div>
+								</div>
 							);
 						})}
-					</div>
+						<Link to="newPost" className="btn btn-primary">Create New Post</Link>
 				</div>
 
-				<Link to="newPost" className="btn btn-primary">Create New Post</Link>
+				<div className="col-sm-12">
+					
+				</div>
 			</div>
 		);
 	}
