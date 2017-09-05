@@ -24,8 +24,9 @@ class PostList extends Component {
     }
 	render() {
 		return (
-			<div>
-				<div className="col-sm-6">
+			<div class="container">
+				<div className="row">
+					<div className="col-sm-offset-3 col-sm-6">
 						{_.isArray(this.props.posts) && this.props.posts.map((post) => {
 							return (
 								<div key={post.id} className="panel panel-default">
@@ -59,6 +60,7 @@ class PostList extends Component {
 							);
 						})}
 						<Link to="/newPost" className="btn btn-primary">Create New Post</Link>
+					</div>
 				</div>
 			</div>
 		);
