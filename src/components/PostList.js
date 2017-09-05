@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PostAPI } from '../utils/api';
+import _ from 'lodash';
 import { getPosts } from '../actions';
 import { formatDate } from '../utils/helpers';
 import AddPost from './AddPost';
@@ -25,10 +26,9 @@ class PostList extends Component {
 		return (
 			<div>
 				<div className="col-sm-6">
-					
-						{this.props.posts.map((post) => {
+						{_.isArray(this.props.posts) && this.props.posts.map((post) => {
 							return (
-								<div className="panel panel-default">
+								<div key={post.id} className="panel panel-default">
 									<div className="panel-heading" key={post.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
 										<div style={{ display: 'flex', flexDirection: 'row' }}>
 											<span className="glyphicon glyphicon-user" style={{ padding: '10px', paddingTop: '20px' }}></span>
@@ -58,11 +58,7 @@ class PostList extends Component {
 								</div>
 							);
 						})}
-						<Link to="newPost" className="btn btn-primary">Create New Post</Link>
-				</div>
-
-				<div className="col-sm-12">
-					
+						<Link to="/newPost" className="btn btn-primary">Create New Post</Link>
 				</div>
 			</div>
 		);
