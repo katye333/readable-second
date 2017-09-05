@@ -12,7 +12,7 @@ class AddPost extends Component {
             	this.props.getCategories(categories);
         	});
 	}
-	
+
 	state = {
 		category: '',
 		title: '',
@@ -40,7 +40,7 @@ class AddPost extends Component {
 		}, formValues);
 
 		PostAPI.createNewPost(newPost)
-			.then(data => history.push('/'))
+			.then(data => history.push('/posts'))
 	}
 	render() {
 		return (
@@ -54,7 +54,7 @@ class AddPost extends Component {
 							<div className="col-sm-4">
 								<select className="form-control" id="post_category" name="category">
 									<option></option>
-									
+
 									{this.props.categories.map((category) => {
 										return (
 											<option key={category.name} value={category.name}>{category.name}</option>

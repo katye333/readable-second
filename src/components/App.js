@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Home from './Home';
 import CategoryList from './CategoryList';
 import PostList from './PostList';
@@ -15,9 +15,9 @@ class App extends Component {
         	<div className="route-container">
 	    		<Route path="/" component={ Home } />
 	    		<Route exact path="/categories" component={ CategoryList } />
-	    		<Route exact path="/categories/:path" component={ PostList } />
+	    		<Route path="/categories/:path" component={ PostList } />
 	    		<Route exact path="/posts" component={ PostList } />
-	    		<Route exact path="/posts/:id" component={ Post } />
+	    		<Route path="/posts/:id" component={ Post } />
 				<Route exact path="/newPost" component={ AddPost } />
 	    	</div>
         );
