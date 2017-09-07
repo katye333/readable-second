@@ -73,8 +73,22 @@ export const PostAPI = {
   			},
   			body: JSON.stringify(post) })
   			.then((res) => res.json())
-  			.then((data) => console.log("1111",data))
-  	)
+  	),
+
+  	deletePost: (postId) => (
+	    fetch(`${url}/posts/${postId}`, {
+	    	method: 'DELETE',
+  			headers: {
+  				'Accept': 'application/json',
+  				'Authorization': token,
+  				'Content-Type': 'application/json'
+  			},
+	    })
+      	.then(res => res.text())
+      	.catch((exception) => {
+			console.log('Error', exception)
+		})
+  	),
 }
 
 export const CommentAPI = {

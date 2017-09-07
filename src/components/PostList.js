@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PostAPI } from '../utils/api';
 import _ from 'lodash';
-import { getPosts } from '../actions';
+import { getPosts, deletePost } from '../actions';
 import { formatDate } from '../utils/helpers';
 import AddPost from './AddPost';
 
@@ -32,9 +32,18 @@ class PostList extends Component {
   		if (this.state.vote === newSort)
   			this.setState({ sort: newSort })
   	}
+
+  	handleDelete = (post) => {
+  		const { history } = this.props;
+  		const id = post.id;
+  		PostAPI.deletePost(post.id)
+			.then((thisPost) => {
+            	this.props.deletePost(id);
+        	})
+			.then(data => history.push('/posts'))
+  	}
 	render() {
 		const posts = this.props.posts;
-		console.log(posts)
 
 		let sortedPosts = (this.state.sort === 'vote'
     		? _.sortBy(posts, 'voteScore').reverse()
@@ -75,6 +84,8 @@ class PostList extends Component {
 									<div className="panel-footer">
 										<Link to={'/edit/'+ post.id} className="btn btn-default">Edit Post</Link>
 										<button type="button" className="btn btn-default" onClick={this.handleExpand}>View Comments</button>
+
+										<button type="button" className="btn btn-default" onClick={() => this.handleDelete(post)}>Delete Post</button>
 									</div>
 								</div>
 							);
@@ -103,7 +114,8 @@ function mapStateToProps({ posts }) {
 // Pass event handler from Action Creators
 function mapDispatchToProps(dispatch) {
     return {
-        getPosts: (data) => dispatch(getPosts(data))
+        getPosts: (data) => dispatch(getPosts(data)),
+        deletePost: (data) => dispatch(deletePost(data))
     }
 }
 

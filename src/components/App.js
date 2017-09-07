@@ -21,6 +21,7 @@ class App extends Component {
 	    		<Route path="/posts/:id" component={ Post } />
 				<Route exact path="/newPost" component={ AddPost } />
 				<Route path="/edit/:id" component={ UpdatePost } />
+				<Route path="/delete/:id" component={ PostList } />
 	    	</div>
         );
     }

@@ -3,7 +3,9 @@ import {
 	CATEGORY_FETCH,
 	POST_FETCH,
 	COMMENT_FETCH,
-	POST_EDIT
+	POST_ADD,
+	POST_EDIT,
+	POST_DELETE
 } from '../actions';
 
 /* Reducers */
@@ -28,8 +30,21 @@ function posts(state = {posts: []}, action) {
             const { posts } = action;
             return {
                 ...state,
-                posts
-            };
+                posts: posts.filter(post => !post.deleted)
+            }
+        case POST_ADD:
+        	return Object.assign({}, state, {
+        		posts: state.posts.concat({
+        			id: action.id,
+        			timestamp: action.timestamp,
+        			title: action.title,
+        			body: action.body,
+        			author: action.author,
+        			category: action.category,
+        			voteScore: action.voteScore,
+        			deleted: action.deleted
+        		})
+        	})
         case POST_EDIT:
         	return Object.assign({}, state, {
         		posts: state.posts.map(post => {
@@ -40,6 +55,10 @@ function posts(state = {posts: []}, action) {
         				posts: post
         			})
         		})
+        	})
+        case POST_DELETE:
+        	return Object.assign({}, state, {
+        		posts: state.posts.filter(post => post.id !== action.postId)
         	})
         default:
             return state;

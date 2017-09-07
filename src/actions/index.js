@@ -15,7 +15,6 @@ export const COMMENT_DELETE = 'COMMENT_DELETE';
 
 // Category Actions
 export function getCategories(categories) {
-	console.log('2', categories)
     return {
         type: CATEGORY_FETCH,
         categories
@@ -39,15 +38,15 @@ export function addPost(post) {
 
 export function editPost(post) {
 	return {
-		type: POST_ADD,
+		type: POST_EDIT,
 		post
 	};
 }
 
-export function deletePost(post) {
+export function deletePost(postId) {
 	return {
-		type: POST_ADD,
-		post
+		type: POST_DELETE,
+		postId
 	};
 }
 
@@ -68,14 +67,14 @@ export function addComment(comment) {
 
 export function editComment(comment) {
 	return {
-		type: COMMENT_ADD,
+		type: COMMENT_EDIT,
 		comment
 	};
 }
 
 export function deleteComment(comment) {
 	return {
-		type: COMMENT_ADD,
+		type: COMMENT_DELETE,
 		comment
 	};
 }
