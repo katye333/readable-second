@@ -3,16 +3,9 @@ import { connect } from 'react-redux';
 import serialize from 'form-serialize';
 import cuid from 'cuid';
 import { CategoryAPI, PostAPI } from '../utils/api';
-import { getCategories, addPost } from '../actions';
+import { getCategoriesAll, addPost } from '../actions';
 
 class AddPost extends Component {
-	componentDidMount() {
-        CategoryAPI.fetchCategories()
-        	.then((categories) => {
-            	this.props.getCategories(categories);
-        	});
-	}
-
 	state = {
 		category: '',
 		title: '',
@@ -107,7 +100,6 @@ function mapStateToProps({ categories, posts }) {
 // Pass event handler from Action Creators
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: (data) => dispatch(getCategories(data)),
         addPost: (data) => dispatch(addPost(data))
     }
 }

@@ -21,10 +21,10 @@ class UpdatePost extends Component {
 	}
 
 	componentDidMount() {
-        CategoryAPI.fetchCategories()
-        	.then((categories) => {
-            	this.props.getCategories(categories);
-        	});
+        // CategoryAPI.fetchCategories()
+        // 	.then((categories) => {
+        //     	this.props.getCategories(categories);
+        // 	});
 
         PostAPI.getPostById(this.props.match.params.id)
 			.then((post) => {
@@ -125,7 +125,6 @@ function mapStateToProps({ categories, posts }) {
 // Pass event handler from Action Creators
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: (data) => dispatch(getCategories(data)),
         editPost: (data) => dispatch(editPost(data))
     }
 }

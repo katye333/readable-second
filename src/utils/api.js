@@ -12,17 +12,7 @@ const headers = {
     'Authorization': token
 };
 
-// All the methods pertaining to the Categories API
-export const CategoryAPI = {
-	fetchCategories: () => (
-		fetch(`${url}/categories`, { method: 'GET', headers })
-			.then((res) => res.json())
-	        .catch((exception) => {
-	            console.log('Error', exception)
-	        })
-	        .then((data) => data.categories)
-	)
-}
+
 
 // All the methods pertaining to the Posts API
 export const PostAPI = {
@@ -91,9 +81,3 @@ export const PostAPI = {
   	),
 }
 
-export const CommentAPI = {
-	getByPostId: (postId) => (
-    	fetch(`${url}/posts/${postId}/comments`, { method: 'GET', headers })
-      		.then(res => res.json())
-  	)
-}

@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {
 	CATEGORY_FETCH,
+	CATEGORY_RECEIVE,
 	POST_FETCH,
 	COMMENT_FETCH,
 	POST_ADD,
@@ -10,14 +11,19 @@ import {
 
 /* Reducers */
 // Retrieve/Update categories section of main object
-function categories(state = {categories: []}, action) {
+function categories(state = {categoryIsFetching: false, categories: []}, action) {
     switch (action.type) {
         case CATEGORY_FETCH:
-            const { categories } = action;
-            return {
-                ...state,
-                categories
-            };
+            return Object.assign({}, state, {
+				categoryIsFetching: true,
+				categories: []
+            })
+
+        case CATEGORY_RECEIVE:
+        	return Object.assign({}, state, {
+        		categoryIsFetching: false,
+        		categories: action.categories
+        	})
 
         default:
             return state;

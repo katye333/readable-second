@@ -80,12 +80,18 @@ class PostList extends Component {
 										<div><strong>Posted At: </strong>: {formatDate(post.timestamp)}</div>
 										<div><strong>Category</strong>: {post.category}</div>
 										<div>{post.body}</div>
+
+										<div className="hidden" id="comment_container">
+											<hr />
+
+										</div>
 									</div>
 									<div className="panel-footer">
-										<Link to={'/edit/'+ post.id} className="btn btn-default">Edit Post</Link>
 										<button type="button" className="btn btn-default" onClick={this.handleExpand}>View Comments</button>
-
-										<button type="button" className="btn btn-default" onClick={() => this.handleDelete(post)}>Delete Post</button>
+										<div className="btn-group pull-right">
+											<Link to={'/edit/'+ post.id} className="btn btn-default">Edit Post</Link>
+											<button type="button" className="btn btn-default" onClick={() => this.handleDelete(post)}>Delete Post</button>
+										</div>
 									</div>
 								</div>
 							);
