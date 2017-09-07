@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import {
 	CATEGORY_FETCH,
 	POST_FETCH,
-	COMMENT_FETCH
+	COMMENT_FETCH,
+	POST_EDIT
 } from '../actions';
 
 /* Reducers */
@@ -29,7 +30,17 @@ function posts(state = {posts: []}, action) {
                 ...state,
                 posts
             };
+        case POST_EDIT:
+        	return Object.assign({}, state, {
+        		posts: state.posts.map(post => {
+        			if (post.id !== action.id)
+        				return post
 
+        			return Object.assign({}, post, {
+        				posts: post
+        			})
+        		})
+        	})
         default:
             return state;
     }

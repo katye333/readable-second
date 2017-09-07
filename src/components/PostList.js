@@ -8,6 +8,9 @@ import { formatDate } from '../utils/helpers';
 import AddPost from './AddPost';
 
 class PostList extends Component {
+	state = {
+    	sortType: 'vote'
+  	};
 	componentDidMount() {
 		if (this.props.match.params.path) {
 			PostAPI.fetchPostsByCategory(this.props.match.params.path)
@@ -22,15 +25,29 @@ class PostList extends Component {
 				});
 		}
     }
+
+  	handleSort(e) {
+  		const newSort = e.target.id;
+
+  		if (this.state.vote === newSort)
+  			this.setState({ sort: newSort })
+  	}
 	render() {
+		const posts = this.props.posts;
+		console.log(posts)
+
+		let sortedPosts = (this.state.sort === 'vote'
+    		? _.sortBy(posts, 'voteScore').reverse()
+    		: _.sortBy(posts, 'timestamp').reverse())
+
 		return (
-			<div class="container">
+			<div className="container">
 				<div className="row">
 					<div className="col-sm-offset-3 col-sm-6">
-						{_.isArray(this.props.posts) && this.props.posts.map((post) => {
+						{_.isArray(this.props.posts) && sortedPosts.map((post) => {
 							return (
 								<div key={post.id} className="panel panel-default">
-									<div className="panel-heading" key={post.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+									<div className="panel-heading" key={post.id} style={}>
 										<div style={{ display: 'flex', flexDirection: 'row' }}>
 											<span className="glyphicon glyphicon-user" style={{ padding: '10px', paddingTop: '20px' }}></span>
 											<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
@@ -51,15 +68,24 @@ class PostList extends Component {
 										</div>
 									</div>
 									<div className="panel-body">
-										<div><strong>Timestamp</strong>: {formatDate(post.timestamp)}</div>
-										<div><strong>VoteScore</strong>: {post.voteScore}</div>
+										<div><strong>Posted At: </strong>: {formatDate(post.timestamp)}</div>
 										<div><strong>Category</strong>: {post.category}</div>
 										<div>{post.body}</div>
+									</div>
+									<div className="panel-footer">
+										<Link to={'/edit/'+ post.id} className="btn btn-default">Edit Post</Link>
+										<button type="button" className="btn btn-default" onClick={this.handleExpand}>View Comments</button>
 									</div>
 								</div>
 							);
 						})}
+
 						<Link to="/newPost" className="btn btn-primary">Create New Post</Link>
+
+						<ul className="list-group">
+							<li id="time" className="list-group-item" onClick={this.handleSort}>Sort Posts by Timestamp</li>
+							<li id="vote" className="list-group-item" onClick={this.handleSort}>Sort Posts by VoteScore</li>
+						</ul>
 					</div>
 				</div>
 			</div>

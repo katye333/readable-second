@@ -15,6 +15,7 @@ export const COMMENT_DELETE = 'COMMENT_DELETE';
 
 // Category Actions
 export function getCategories(categories) {
+	console.log('2', categories)
     return {
         type: CATEGORY_FETCH,
         categories

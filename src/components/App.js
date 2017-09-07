@@ -8,6 +8,7 @@ import Post from './Post';
 import UpdatePost from './UpdatePost';
 
 class App extends Component {
+
     render() {
 
     	// Define routes and add components
@@ -19,6 +20,7 @@ class App extends Component {
 	    		<Route exact path="/posts" component={ PostList } />
 	    		<Route path="/posts/:id" component={ Post } />
 				<Route exact path="/newPost" component={ AddPost } />
+				<Route path="/edit/:id" component={ UpdatePost } />
 	    	</div>
         );
     }

@@ -60,6 +60,20 @@ export const PostAPI = {
   			},
   			body: JSON.stringify(post) })
   			.then((res) => res.json())
+  	),
+
+  	editPost: (post) => (
+  		console.log(post),
+  		fetch(`${url}/posts/${post.id}`, {
+  			method: 'PUT',
+  			headers: {
+  				'Accept': 'application/json',
+  				'Authorization': token,
+  				'Content-Type': 'application/json'
+  			},
+  			body: JSON.stringify(post) })
+  			.then((res) => res.json())
+  			.then((data) => console.log("1111",data))
   	)
 }
 
