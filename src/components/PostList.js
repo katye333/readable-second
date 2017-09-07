@@ -47,7 +47,7 @@ class PostList extends Component {
 						{_.isArray(this.props.posts) && sortedPosts.map((post) => {
 							return (
 								<div key={post.id} className="panel panel-default">
-									<div className="panel-heading" key={post.id} style={}>
+									<div className="panel-heading" key={post.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
 										<div style={{ display: 'flex', flexDirection: 'row' }}>
 											<span className="glyphicon glyphicon-user" style={{ padding: '10px', paddingTop: '20px' }}></span>
 											<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
