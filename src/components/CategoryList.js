@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { CategoryAPI } from '../utils/api';
 import { getCategoriesAll } from '../actions';
-import PostList from './PostList';
 
 class CategoryList extends Component {
-
 	componentDidMount() {
 		const { dispatch, categories } = this.props
         dispatch(getCategoriesAll(categories));

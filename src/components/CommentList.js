@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PostAPI } from '../utils/api';
+import { CommentAPI } from '../utils/api';
 import _ from 'lodash';
-import { getPostsAll, getsPostsByCategory, deletePost } from '../actions';
+import { getPosts, deletePost } from '../actions';
 import { formatDate } from '../utils/helpers';
 import AddPost from './AddPost';
 
@@ -12,12 +12,17 @@ class PostList extends Component {
     	sortType: 'vote'
   	};
 	componentDidMount() {
-		const { dispatch, posts } = this.props;
 		if (this.props.match.params.path) {
-			dispatch(getsPostsByCategory(this.props.match.params.path));
+			CommentAPI.fetchCommentsByPost(this.props.match.params.path)
+				.then((posts) => {
+			    	this.props.getPosts(posts);
+				});
 		}
 		else {
-			dispatch(getPostsAll(posts));
+			PostAPI.fetchPosts()
+				.then((posts) => {
+			    	this.props.getPosts(posts);
+				});
 		}
     }
 
@@ -28,7 +33,7 @@ class PostList extends Component {
   			this.setState({ sort: newSort })
   	}
 
-  	handleDelete(post) {
+  	handleDelete = (post) => {
   		const { history } = this.props;
   		const id = post.id;
   		PostAPI.deletePost(post.id)
@@ -38,17 +43,17 @@ class PostList extends Component {
 			.then(data => history.push('/posts'))
   	}
 	render() {
-		const { posts, postIsFetching } = this.props
+		const posts = this.props.posts;
 
 		let sortedPosts = (this.state.sort === 'vote'
-    		? _.sortBy(posts.posts, 'voteScore').reverse()
-    		: _.sortBy(posts.posts, 'timestamp').reverse())
+    		? _.sortBy(posts, 'voteScore').reverse()
+    		: _.sortBy(posts, 'timestamp').reverse())
 
 		return (
 			<div className="container">
 				<div className="row">
 					<div className="col-sm-offset-3 col-sm-6">
-						{sortedPosts.map((post) => {
+						{_.isArray(this.props.posts) && sortedPosts.map((post) => {
 							return (
 								<div key={post.id} className="panel panel-default">
 									<div className="panel-heading" key={post.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -106,13 +111,18 @@ class PostList extends Component {
 }
 
 // Add State to the props of the MainPage component
-// Add State to the props of the MainPage component
-function mapStateToProps(state) {
-	const { posts, postIsFetching } = state;
+function mapStateToProps({ posts }) {
     return {
-        posts,
-        postIsFetching
+        posts: posts.posts
     }
 }
 
-export default connect(mapStateToProps)(PostList);
+// Pass event handler from Action Creators
+function mapDispatchToProps(dispatch) {
+    return {
+        getPosts: (data) => dispatch(getPosts(data)),
+        deletePost: (data) => dispatch(deletePost(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList);

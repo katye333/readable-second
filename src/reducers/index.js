@@ -1,19 +1,22 @@
 import { combineReducers } from 'redux';
 import {
-	CATEGORY_FETCH,
+	CATEGORY_REQUEST,
 	CATEGORY_RECEIVE,
-	POST_FETCH,
-	COMMENT_FETCH,
+	POST_REQUEST,
+	POST_RECEIVE,
+	POST_BY_CATEGORY,
+	POST_BY_ID,
 	POST_ADD,
 	POST_EDIT,
-	POST_DELETE
+	POST_DELETE,
+	COMMENT_FETCH
 } from '../actions';
 
 /* Reducers */
 // Retrieve/Update categories section of main object
 function categories(state = {categoryIsFetching: false, categories: []}, action) {
     switch (action.type) {
-        case CATEGORY_FETCH:
+        case CATEGORY_REQUEST:
             return Object.assign({}, state, {
 				categoryIsFetching: true,
 				categories: []
@@ -30,41 +33,24 @@ function categories(state = {categoryIsFetching: false, categories: []}, action)
     }
 }
 
-function posts(state = {posts: []}, action) {
+function posts(state = {postIsFetching: false, posts: []}, action) {
     switch (action.type) {
-        case POST_FETCH:
-            const { posts } = action;
-            return {
-                ...state,
-                posts: posts.filter(post => !post.deleted)
-            }
-        case POST_ADD:
-        	return Object.assign({}, state, {
-        		posts: state.posts.concat({
-        			id: action.id,
-        			timestamp: action.timestamp,
-        			title: action.title,
-        			body: action.body,
-        			author: action.author,
-        			category: action.category,
-        			voteScore: action.voteScore,
-        			deleted: action.deleted
-        		})
-        	})
-        case POST_EDIT:
-        	return Object.assign({}, state, {
-        		posts: state.posts.map(post => {
-        			if (post.id !== action.id)
-        				return post
+        case POST_REQUEST:
+            return Object.assign({}, state, {
+				postIsFetching: true,
+				posts: []
+            })
 
-        			return Object.assign({}, post, {
-        				posts: post
-        			})
-        		})
-        	})
-        case POST_DELETE:
+        case POST_RECEIVE:
         	return Object.assign({}, state, {
-        		posts: state.posts.filter(post => post.id !== action.postId)
+        		postIsFetching: false,
+        		posts: action.posts
+        	})
+
+        case POST_BY_ID:
+        	return Object.assign({}, state, {
+        		postIsFetching: false,
+        		posts: action.post
         	})
         default:
             return state;

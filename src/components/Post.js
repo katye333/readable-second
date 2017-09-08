@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PostAPI } from '../utils/api';
-import { getPosts } from '../actions';
+import { getPostById } from '../actions';
 import { formatDate } from '../utils/helpers';
 
 class Post extends Component {
 	componentDidMount() {
-		PostAPI.getPostById(this.props.match.params.id)
-			.then((posts) => {
-		    	this.props.getPosts(posts);
-			});
+		const { dispatch } = this.props;
+		const postId = this.props.match.params.id;
+		dispatch(getPostById(postId));
     }
 	render() {
-		const post = this.props.posts;
+		const post = this.props.posts.posts;
 		return (
-			<ul key={post.id}>
+			<ul>
 				<li><strong>Title</strong>: {post.title}</li>
 				<li><strong>Author</strong>: {post.author}</li>
 				<li><strong>Timestamp</strong>: {formatDate(post.timestamp)}</li>
@@ -26,17 +25,12 @@ class Post extends Component {
 }
 
 // Add State to the props of the MainPage component
-function mapStateToProps({ posts }) {
+function mapStateToProps(state) {
+	const { posts, postIsFetching } = state;
     return {
-        posts: posts.posts
+        posts,
+        postIsFetching
     }
 }
 
-// Pass event handler from Action Creators
-function mapDispatchToProps(dispatch) {
-    return {
-        getPosts: (data) => dispatch(getPosts(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(mapStateToProps)(Post);

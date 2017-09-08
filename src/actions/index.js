@@ -1,8 +1,10 @@
 // Constants for type property
-import { CategoryAPI } from '../utils/api';
-export const CATEGORY_FETCH = 'CATEGORY_FETCH';
+import { CategoryAPI, PostAPI, CommentAPI } from '../utils/api';
+export const CATEGORY_REQUEST = 'CATEGORY_REQUEST';
 export const CATEGORY_RECEIVE = 'CATEGORY_RECEIVE';
-export const POST_FETCH = 'POST_FETCH';
+export const POST_REQUEST = 'POST_REQUEST';
+export const POST_RECEIVE = 'POST_RECEIVE';
+export const POST_BY_ID = 'POST_BY_ID';
 export const POST_ADD = 'POST_ADD';
 export const POST_EDIT = 'POST_EDIT';
 export const POST_DELETE = 'POST_DELETE';
@@ -27,42 +29,87 @@ const headers = {
     'Accept': 'application/json',
     'Authorization': token
 };
-// Category Actions
-export function requestCategories(categories) {
+
+// Category Actions Creators
+function requestCategories(categories) {
     return {
-        type: CATEGORY_FETCH,
+        type: CATEGORY_REQUEST,
         categories
     };
 }
 
-export function receiveCategories(categories) {
+function receiveCategories(categories) {
 	return {
 		type: CATEGORY_RECEIVE,
 		categories
 	}
 }
 
+// Category Action Creator with a Thunk
 export function getCategoriesAll(categories) {
-  return dispatch => {
-    dispatch(requestCategories(categories))
+  	return dispatch => {
+    	dispatch(requestCategories(categories))
 
-    return fetch(`${url}/categories`, { method: 'GET', headers })
-    	.then(response => response.json())
-    	.then(json => dispatch(receiveCategories(json.categories)))
-  }
+    	return fetch(`${url}/categories`, { method: 'GET', headers })
+    		.then(response => response.json())
+    		.then(json => dispatch(receiveCategories(json.categories)))
+  	}
 }
 
 // Post Actions
-export function getPosts(posts) {
+function requestPosts(posts) {
 	return {
-		type: POST_FETCH,
+		type: POST_REQUEST,
 		posts
 	};
 }
 
+function receivePosts(posts) {
+	return {
+		type: POST_RECEIVE,
+		posts
+	};
+}
+
+function receivePostById(post) {
+	return {
+		type: POST_BY_ID,
+		post
+	}
+}
+
+export function getPostsAll(posts) {
+  	return dispatch => {
+  		dispatch(requestPosts(posts))
+
+    	return fetch(`${url}/posts`, { method: 'GET', headers })
+    		.then(response => response.json())
+    		.then(json => dispatch(receivePosts(json)))
+  	}
+}
+
+export function getsPostsByCategory(category) {
+  	return dispatch => {
+  		dispatch(requestPosts(category))
+
+    	return fetch(`${url}/${category}/posts`, { method: 'GET', headers })
+    		.then(response => response.json())
+    		.then(json => dispatch(receivePosts(json)))
+  	}
+}
+
+// Category Action Creator with a Thunk
+export function getPostById(post) {
+	return dispatch => {
+	    return fetch(`${url}/posts/${post}`, { method: 'GET', headers })
+	    	.then(response => response.json())
+	    	.then(json => dispatch(receivePostById(json)))
+	}
+}
+
 export function addPost(post) {
 	return {
-		type: POST_ADD,
+		type: POST_RECEIVE,
 		post
 	};
 }
