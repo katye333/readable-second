@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import serialize from 'form-serialize';
 import cuid from 'cuid';
-import { CategoryAPI, PostAPI } from '../utils/api';
-import { getCategoriesAll, addPost } from '../actions';
+import { PostAPI } from '../utils/api';
+import { addPost } from '../actions';
 
 class AddPost extends Component {
 	state = {

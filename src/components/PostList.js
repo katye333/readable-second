@@ -9,23 +9,28 @@ import AddPost from './AddPost';
 
 class PostList extends Component {
 	state = {
-    	sortType: 'vote'
+    	sort: 'vote',
+    	voteLabel: "✔ By Vote Score",
+    	timeLabel: "By Time"
   	};
 	componentDidMount() {
-		const { dispatch, posts } = this.props;
-		if (this.props.match.params.path) {
-			dispatch(getsPostsByCategory(this.props.match.params.path));
-		}
-		else {
-			dispatch(getPostsAll(posts));
-		}
+		const { dispatch } = this.props;
+		const category = this.props.match.params.path;
+
+		category // is available
+			? dispatch(getsPostsByCategory(category))
+			: dispatch(getPostsAll(category));
     }
 
   	handleSort(e) {
   		const newSort = e.target.id;
 
-  		if (this.state.vote === newSort)
+  		if (this.state.sort !== newSort)
   			this.setState({ sort: newSort })
+
+  		newSort === 'vote'
+  			? this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
+  			: this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
   	}
 
   	handleDelete(post) {
@@ -38,8 +43,7 @@ class PostList extends Component {
 			.then(data => history.push('/posts'))
   	}
 	render() {
-		const { posts, postIsFetching } = this.props
-
+		const posts = this.props.posts;
 		let sortedPosts = (this.state.sort === 'vote'
     		? _.sortBy(posts.posts, 'voteScore').reverse()
     		: _.sortBy(posts.posts, 'timestamp').reverse())
@@ -95,8 +99,8 @@ class PostList extends Component {
 						<Link to="/newPost" className="btn btn-primary">Create New Post</Link>
 
 						<ul className="list-group">
-							<li id="time" className="list-group-item" onClick={this.handleSort}>Sort Posts by Timestamp</li>
-							<li id="vote" className="list-group-item" onClick={this.handleSort}>Sort Posts by VoteScore</li>
+							<li id="vote" className="list-group-item sort_list" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</li>
+							<li id="time" className="list-group-item sort_list" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</li>
 						</ul>
 					</div>
 				</div>
