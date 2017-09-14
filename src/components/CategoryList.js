@@ -5,17 +5,16 @@ import { fetchCategories } from '../actions';
 
 class CategoryList extends Component {
     componentDidMount() {
-        const { dispatch, categories } = this.props
-        dispatch(fetchCategories(categories));
+        this.props.fetchCategories();
     }
 
     render() {
-        const { categories, categoryIsFetching } = this.props
+        const categories = this.props.categories;
         return (
             <div>
                 <h1>Category List</h1>
                 <div className="list-group">
-                	{categories.categories && categories.categories.length > 0 && categories.categories.map((cat) => {
+                	{categories && categories.length > 0 && categories.map((cat) => {
                 		return (
 	                		<Link
 			                    to={"/categories/"+cat.path}
@@ -32,12 +31,17 @@ class CategoryList extends Component {
 }
 
 // Add State to the props of the MainPage component
-function mapStateToProps(state) {
-    const { categories, categoryIsFetching } = state
+function mapStateToProps({ categories }) {
     return {
-        categories,
-        categoryIsFetching
+        categories: categories.categories
     }
 }
 
-export default connect(mapStateToProps)(CategoryList);
+// Pass event handler from Action Creators
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchCategories: () => dispatch(fetchCategories())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);

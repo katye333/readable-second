@@ -1,29 +1,33 @@
 // Constants for type property
-import { CategoryAPI, PostAPI, CommentAPI } from '../utils/api';
 export const CATEGORY_REQUEST = 'CATEGORY_REQUEST';
 export const CATEGORY_RECEIVE = 'CATEGORY_RECEIVE';
+
 export const POST_REQUEST = 'POST_REQUEST';
 export const POST_RECEIVE = 'POST_RECEIVE';
-
 export const POST_BY_ID_REQUEST = 'POST_BY_ID_REQUEST';
 export const POST_BY_ID_RECEIVE = 'POST_BY_ID_RECEIVE';
 export const POST_BY_CATEGORY_REQUEST = 'POST_BY_CATEGORY_REQUEST';
 export const POST_BY_CATEGORY_RECEIVE = 'POST_BY_CATEGORY_RECEIVE';
-
 export const POST_ADD_REQUEST = 'POST_ADD_REQUEST';
 export const POST_ADD_RECEIVE = 'POST_ADD_RECEIVE';
 export const POST_EDIT_REQUEST = 'POST_EDIT_REQUEST';
 export const POST_EDIT_RECEIVE = 'POST_EDIT_RECEIVE';
-
 export const POST_DELETE = 'POST_DELETE';
 export const POST_DELETE_REQUEST = 'POST_DELETE_REQUEST';
 export const POST_DELETE_RECEIVE = 'POST_DELETE_RECEIVE';
 
-export const COMMENT_FETCH = 'COMMENT_FETCH';
-export const COMMENT_ADD = 'COMMENT_ADD';
-export const COMMENT_EDIT = 'COMMENT_EDIT';
-export const COMMENT_DELETE = 'COMMENT_DELETE';
-
+export const COMMENT_REQUEST = 'COMMENT_REQUEST';
+export const COMMENT_RECEIVE = 'COMMENT_RECEIVE';
+export const COMMENT_BY_ID_REQUEST = 'COMMENT_BY_ID_REQUEST';
+export const COMMENT_BY_ID_RECEIVE = 'COMMENT_BY_ID_RECEIVE';
+export const COMMENT_ADD_REQUEST = 'COMMENT_ADD_REQUEST';
+export const COMMENT_ADD_RECEIVE = 'COMMENT_ADD_RECEIVE';
+export const COMMENT_VOTE_REQUEST = 'COMMENT_VOTE_REQUEST';
+export const COMMENT_VOTE_RECEIVE = 'COMMENT_VOTE_RECEIVE';
+export const COMMENT_EDIT_REQUEST = 'COMMENT_EDIT_REQUEST';
+export const COMMENT_EDIT_RECEIVE = 'COMMENT_EDIT_RECEIVE';
+export const COMMENT_DELETE_REQUEST = 'COMMENT_DELETE_REQUEST';
+export const COMMENT_DELETE_RECEIVE = 'COMMENT_DELETE_RECEIVE';
 
 /* ----------------------------------------- */
 /* ************ ACTION CREATORS ************ */
@@ -234,32 +238,146 @@ export function deletePost(postId) {
     }
 }
 
-
 // Comment Actions
-export function getComments(comments) {
+function requestComments() {
     return {
-        type: COMMENT_FETCH,
-        comments
+        type: COMMENT_REQUEST,
+        comments: []
+    }
+}
+
+function receiveComments(json) {
+    return {
+        type: COMMENT_RECEIVE,
+        comments: json
     };
 }
 
-export function addComment(comment) {
+export function fetchComments(postId) {
+    return dispatch => {
+        dispatch(requestComments())
+
+        return fetch(`${url}/posts/${postId}/comments`, { method: 'GET', headers })
+            .then(response => response.json())
+            .then(json => dispatch(receiveComments(json)))
+    }
+}
+
+function requestAddComment() {
     return {
-        type: COMMENT_ADD,
-        comment
+        type: COMMENT_ADD_REQUEST,
+        comments: []
     };
+}
+
+function receiveAddComment(post) {
+    return {
+        type: COMMENT_ADD_RECEIVE,
+        comments: post
+    }
+}
+
+export function addComment(post) {
+    return dispatch => {
+        dispatch(requestAddComment())
+
+        return fetch(`${url}/comments`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(post)
+            })
+            .then(response => response.json())
+            .then(json => dispatch(receiveAddComment(json)))
+    }
+}
+
+
+function requestCommentById() {
+    return {
+        type: COMMENT_BY_ID_REQUEST,
+        comments: []
+    };
+}
+
+function receiveCommentById(json) {
+    return {
+        type: COMMENT_BY_ID_RECEIVE,
+        comments: json
+    }
+}
+
+// Category Action Creator with a Thunk
+export function fetchCommentById(commentId) {
+    return dispatch => {
+        dispatch(requestCommentById())
+        return fetch(`${url}/comments/${commentId}`, { method: 'GET', headers })
+            .then(response => response.json())
+            .then(json => dispatch(receiveCommentById(json)))
+    }
+}
+
+function requestEditComment() {
+    return {
+        type: COMMENT_EDIT_REQUEST,
+        comments: []
+    }
+}
+
+function receiveEditComment(json) {
+    return {
+        type: COMMENT_EDIT_RECEIVE,
+        comments: json
+    }
 }
 
 export function editComment(comment) {
-    return {
-        type: COMMENT_EDIT,
-        comment
-    };
+    return dispatch => {
+        dispatch(requestEditComment())
+
+        return fetch(`${url}/comment/${comment.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(comment)
+            })
+            .then(response => response.json())
+            .then(json => dispatch(receiveEditComment(json)))
+    }
 }
 
-export function deleteComment(comment) {
+function requestDeleteComment() {
     return {
-        type: COMMENT_DELETE,
-        comment
-    };
+        type: COMMENT_DELETE_REQUEST,
+        comments: []
+    }
+}
+
+function receiveDeleteComment(json) {
+    return {
+        type: COMMENT_DELETE_RECEIVE,
+        comments: json
+    }
+}
+
+export function deleteComment(commentId) {
+    return dispatch => {
+        dispatch(requestDeleteComment())
+        return fetch(`${url}/comments/${commentId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(res => res.text())
+            .then(json => dispatch(receiveDeleteComment(json)))
+    }
 }

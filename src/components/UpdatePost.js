@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { CategoryAPI, PostAPI } from '../utils/api';
 import { fetchCategories, fetchPostById, editPost } from '../actions';
 
 class UpdatePost extends Component {

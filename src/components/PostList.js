@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PostAPI } from '../utils/api';
 import _ from 'lodash';
 import { fetchPosts, fetchPostsByCategory, deletePost } from '../actions';
 import { formatDate } from '../utils/helpers';
@@ -13,7 +12,6 @@ class PostList extends Component {
         timeLabel: "By Time"
     };
     componentDidMount() {
-        const { dispatch } = this.props;
         const category = this.props.match.params.path;
 
         category // is available
@@ -30,13 +28,6 @@ class PostList extends Component {
         newSort === 'vote'
             ? this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
             : this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
-    }
-
-    handleDelete(post) {
-        const { history, dispatch } = this.props;
-
-        this.props.deletePost(post.id)
-        history.push('/posts')
     }
     render() {
         const posts = this.props.posts;
@@ -55,7 +46,6 @@ class PostList extends Component {
                 sortedPosts = posts;
             }
         }
-
         return (
             <div className="container">
 				<div className="row">
@@ -91,18 +81,9 @@ class PostList extends Component {
 										<div><strong>Posted At: </strong>: {formatDate(post.timestamp)}</div>
 										<div><strong>Category</strong>: {post.category}</div>
 										<div>{post.body}</div>
-
-										<div className="hidden" id="comment_container">
-											<hr />
-
-										</div>
 									</div>
 									<div className="panel-footer">
-										<button type="button" className="btn btn-default" onClick={this.handleExpand}>View Comments</button>
-										<div className="btn-group pull-right">
-											<Link to={'/edit/'+ post.id} className="btn btn-default">Edit Post</Link>
-											<button type="button" className="btn btn-default" onClick={() => this.handleDelete(post)}>Delete Post</button>
-										</div>
+
 									</div>
 								</div>
 							);
