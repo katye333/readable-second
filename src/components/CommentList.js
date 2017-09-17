@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchComments } from '../actions';
 import { formatDate } from '../utils/helpers';
-import Comment from './Comment';
 
 class CommentList extends Component {
     state = {
@@ -64,7 +63,12 @@ class CommentList extends Component {
 										<div className="panel-body">
 											<div>{comment.body}</div>
 										</div>
-										<div className="panel-footer"></div>
+										<div className="panel-footer">
+											<div className="btn-group">
+												<Link to={'/comments/edit/'+ comment.id} className="btn btn-default">Edit Comment</Link>
+												<button type="button" className="btn btn-default">Delete Comment</button>
+											</div>
+										</div>
 									</div>
 								);
 							})

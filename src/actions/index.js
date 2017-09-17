@@ -338,7 +338,7 @@ export function editComment(comment) {
     return dispatch => {
         dispatch(requestEditComment())
 
-        return fetch(`${url}/comment/${comment.id}`, {
+        return fetch(`${url}/comments/${comment.id}`, {
                 method: 'PUT',
                 headers: {
                     'Accept': 'application/json',

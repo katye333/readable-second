@@ -7,6 +7,7 @@ import AddPost from './AddPost';
 import Post from './Post';
 import UpdatePost from './UpdatePost';
 import AddComment from './AddComment';
+import UpdateComment from './UpdateComment';
 
 class App extends Component {
 
@@ -24,6 +25,7 @@ class App extends Component {
 				<Route path="/edit/:id" component={ UpdatePost } />
 				<Route path="/delete/:id" component={ PostList } />
 				<Route path="/:id/newComment" component={ AddComment } />
+				<Route path="/comments/edit/:commentId" component={ UpdateComment } />
 	    	</div>
         );
     }
