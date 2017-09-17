@@ -24,7 +24,7 @@ class Post extends Component {
         return (
             <div className="container">
 				<div className="row">
-					<div className="col-sm-offset-3 col-sm-6">
+					<div className="col-sm-offset-1 col-sm-10">
 			            <div key={post.id} className="panel panel-default">
 							<div className="panel-heading" key={post.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
 								<div style={{ display: 'flex', flexDirection: 'row' }}>

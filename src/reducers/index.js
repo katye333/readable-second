@@ -122,22 +122,6 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
                 })
             })
 
-            return Object.assign({}, state, {
-                fetchingPosts: false,
-                posts: state.posts.map(post => {
-                    if (post.id !== action.id) {
-                        return post;
-                    }
-
-                    return Object.assign({}, post, {
-                        title: action.title,
-                        author: action.author,
-                        body: action.body,
-                        category: action.category
-                    })
-                })
-            });
-
         case POST_DELETE_REQUEST:
             return Object.assign({}, state, {
                 fetchingPosts: true,
@@ -231,23 +215,6 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
                     })
                 })
             })
-
-            return Object.assign({}, state, {
-                fetchingComments: false,
-                postId: action.postId,
-                comments: state.comments.map(comment => {
-                    if (comment.id !== action.id) {
-                        return comment;
-                    }
-
-                    return Object.assign({}, comment, {
-                        title: action.title,
-                        author: action.author,
-                        body: action.body,
-                        category: action.category
-                    })
-                })
-            });
 
         case COMMENT_DELETE_REQUEST:
             return Object.assign({}, state, {

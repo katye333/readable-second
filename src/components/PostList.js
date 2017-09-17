@@ -49,7 +49,7 @@ class PostList extends Component {
         return (
             <div className="container">
 				<div className="row">
-					<div className="col-sm-offset-3 col-sm-6">
+					<div className="col-sm-offset-1 col-sm-10">
 						{sortedPosts.length > 0 &&
 							sortedPosts.filter((obj) => {
 								if (obj.deleted === false)
@@ -82,9 +82,7 @@ class PostList extends Component {
 										<div><strong>Category</strong>: {post.category}</div>
 										<div>{post.body}</div>
 									</div>
-									<div className="panel-footer">
-
-									</div>
+									<div className="panel-footer"></div>
 								</div>
 							);
 						})}
