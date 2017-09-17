@@ -5,11 +5,6 @@ import cuid from 'cuid';
 import { addComment } from '../actions';
 
 class AddComment extends Component {
-    state = {
-        author: '',
-        body: ''
-    };
-
     handleSubmit = (event) => {
         event.preventDefault();
         const { history } = this.props;

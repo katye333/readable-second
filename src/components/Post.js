@@ -8,7 +8,8 @@ import CommentList from './CommentList';
 class Post extends Component {
     state = {
         showComments: false,
-        commentContainerClass: 'hidden'
+        commentContainerClass: 'hidden',
+        commentButtonLabel: 'View Comments'
     };
     componentDidMount() {
         const postId = this.props.match.params.id;
@@ -16,8 +17,8 @@ class Post extends Component {
     }
     handleExpand() {
         this.state.showComments === false
-            ? this.setState({ showComments: true, commentContainerClass: '' })
-            : this.setState({ showComments: false, commentContainerClass: 'hidden' })
+            ? this.setState({ showComments: true, commentContainerClass: '', commentButtonLabel: 'Hide Comments' })
+            : this.setState({ showComments: false, commentContainerClass: 'hidden', commentButtonLabel: 'View Comments' })
     }
     render() {
         const post = this.props.post;
@@ -31,9 +32,9 @@ class Post extends Component {
 									<span className="glyphicon glyphicon-user" style={{ padding: '10px', paddingTop: '20px' }}></span>
 									<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
 										<div style={{ flexDirection: 'row' }}>
-											<strong>Title</strong>: {post.title}
+											<strong>Title: </strong>{post.title}
 										</div>
-										<div><strong>Author</strong>: {post.author}</div>
+										<div><strong>Author: </strong>{post.author}</div>
 									</div>
 								</div>
 								<div>
@@ -47,8 +48,8 @@ class Post extends Component {
 								</div>
 							</div>
 							<div className="panel-body">
-								<div><strong>Posted At: </strong>: {formatDate(post.timestamp)}</div>
-								<div><strong>Category</strong>: {post.category}</div>
+								<div><strong>Posted At: </strong>{formatDate(post.timestamp)}</div>
+								<div><strong>Category: </strong>{post.category}</div>
 								<div>{post.body}</div>
 
 								<div className={this.state.commentContainerClass}>
@@ -57,7 +58,7 @@ class Post extends Component {
 								</div>
 							</div>
 							<div className="panel-footer">
-								<button type="button" className="btn btn-default" onClick={this.handleExpand.bind(this)}>View Comments</button>
+								<button type="button" className="btn btn-default" onClick={this.handleExpand.bind(this)}>{this.state.commentButtonLabel}</button>
 								<div className="btn-group pull-right">
 									<Link to={'/edit/'+ post.id} className="btn btn-default">Edit Post</Link>
 									<button type="button" className="btn btn-default" onClick={() => this.handleDelete(post)}>Delete Post</button>

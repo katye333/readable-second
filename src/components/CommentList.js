@@ -33,6 +33,10 @@ class CommentList extends Component {
             <div className="container">
 				<div className="row">
 					<div className="col-sm-offset-1 col-sm-8">
+						<ul className="list-group">
+							<li id="vote" className="list-group-item sort_list" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</li>
+							<li id="time" className="list-group-item sort_list" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</li>
+						</ul>
 						{comments.length > 0 &&
 							comments.filter((obj) => {
 								if (obj.deleted === false && obj.parentDeleted === false)
@@ -43,8 +47,8 @@ class CommentList extends Component {
 										<div className="panel-heading" key={comment.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
 											<div style={{ display: 'flex', flexDirection: 'row' }}>
 												<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
-													<div><strong>Author</strong>: {comment.author}</div>
-													<div><strong>Posted At: </strong>: {formatDate(comment.timestamp)}</div>
+													<div><strong>Author: </strong>{comment.author}</div>
+													<div><strong>Posted At: </strong>{formatDate(comment.timestamp)}</div>
 												</div>
 											</div>
 											<div>
@@ -65,13 +69,7 @@ class CommentList extends Component {
 								);
 							})
 						}
-
-						<Link to={'/'+ this.props.postId + '/newComment'} className="btn btn-primary btn-block">New Comment</Link>
-
-						<ul className="list-group">
-							<li id="vote" className="list-group-item sort_list" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</li>
-							<li id="time" className="list-group-item sort_list" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</li>
-						</ul>
+						<Link to={'/'+ this.props.postId + '/newComment'} className="btn btn-default">New Comment</Link>
 					</div>
 				</div>
 			</div>

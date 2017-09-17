@@ -62,9 +62,9 @@ class PostList extends Component {
 											<span className="glyphicon glyphicon-user" style={{ padding: '10px', paddingTop: '20px' }}></span>
 											<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
 												<div style={{ flexDirection: 'row' }}>
-													<strong>Title</strong>: <Link to={'/posts/'+ post.id}>{post.title}</Link>
+													<strong>Title: </strong><Link to={'/posts/'+ post.id}>{post.title}</Link>
 												</div>
-												<div><strong>Author</strong>: {post.author}</div>
+												<div><strong>Author: </strong>{post.author}</div>
 											</div>
 										</div>
 										<div>
@@ -78,8 +78,8 @@ class PostList extends Component {
 										</div>
 									</div>
 									<div className="panel-body">
-										<div><strong>Posted At: </strong>: {formatDate(post.timestamp)}</div>
-										<div><strong>Category</strong>: {post.category}</div>
+										<div><strong>Posted At: </strong>{formatDate(post.timestamp)}</div>
+										<div><strong>Category: </strong>{post.category}</div>
 										<div>{post.body}</div>
 									</div>
 									<div className="panel-footer"></div>
