@@ -10,7 +10,6 @@ import AddComment from './AddComment';
 import UpdateComment from './UpdateComment';
 
 class App extends Component {
-
     render() {
 
         // Define routes and add components

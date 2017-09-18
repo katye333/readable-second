@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchComments } from '../actions';
+import { fetchComments, deleteComment } from '../actions';
 import { formatDate } from '../utils/helpers';
 
 class CommentList extends Component {
@@ -24,6 +24,11 @@ class CommentList extends Component {
         newSort === 'vote'
             ? this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
             : this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
+    }
+    handleDelete(comment) {
+        const { history, dispatch } = this.props;
+        this.props.deleteComment(comment.id);
+        history.push('/posts/' + this.props.match.params.id)
     }
 
     render() {
@@ -66,7 +71,7 @@ class CommentList extends Component {
 										<div className="panel-footer">
 											<div className="btn-group">
 												<Link to={'/comments/edit/'+ comment.id} className="btn btn-default">Edit Comment</Link>
-												<button type="button" className="btn btn-default">Delete Comment</button>
+												<button type="button" className="btn btn-default" onClick={() => this.handleDelete(comment)}>Delete Comment</button>
 											</div>
 										</div>
 									</div>
@@ -91,7 +96,8 @@ function mapStateToProps({ comments }) {
 // Pass event handler from Action Creators
 function mapDispatchToProps(dispatch) {
     return {
-        fetchComments: (data) => dispatch(fetchComments(data))
+        fetchComments: (data) => dispatch(fetchComments(data)),
+        deleteComment: (data) => dispatch(deleteComment(data))
     }
 }
 

@@ -2,42 +2,46 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import serialize from 'form-serialize';
 import cuid from 'cuid';
-import { PostAPI } from '../utils/api';
-import { addPost } from '../actions';
+import { fetchCategories, addPost } from '../actions';
 
 class AddPost extends Component {
-	state = {
-		category: '',
-		title: '',
-		author: '',
-		body: ''
-	};
+    state = {
+        category: '',
+        title: '',
+        author: '',
+        body: ''
+    };
+    componentDidMount() {
+        this.props.fetchCategories();
+    }
 
-	handleChange = (event) => {
-		const name   = event.target.name;
-		const value  = event.target.value;
+    handleChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
 
-		this.setState({ [name]: value })
-	}
-	handleSubmit = (event) => {
-		event.preventDefault();
-		const { history } = this.props;
-		const formValues = serialize(event.target, { hash: true });
-		const datetime = Date.now();
+        this.setState({
+            [name]: value
+        })
+    }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        const { history } = this.props;
+        const formValues = serialize(event.target, { hash: true });
+        const datetime = Date.now();
 
-		const newPost = Object.assign({
-			id: cuid(),
-			timestamp: datetime,
-			voteScore: 1,
-			deleted: false,
-		}, formValues);
+        const newPost = Object.assign({
+            id: cuid(),
+            timestamp: datetime,
+            voteScore: 1,
+            deleted: false,
+        }, formValues);
 
-		PostAPI.createNewPost(newPost)
-			.then(data => history.push('/posts'))
-	}
-	render() {
-		return (
-			<div className="container">
+        this.props.addPost(newPost)
+        history.push('/posts')
+    }
+    render() {
+        return (
+            <div className="container">
 				<form onSubmit={this.handleSubmit}>
 					<fieldset>
 						<legend>New Post</legend>
@@ -86,8 +90,8 @@ class AddPost extends Component {
 					</fieldset>
 				</form>
 			</div>
-		);
-	}
+        );
+    }
 }
 
 // Add State to the props of the MainPage component
@@ -100,6 +104,7 @@ function mapStateToProps({ categories, posts }) {
 // Pass event handler from Action Creators
 function mapDispatchToProps(dispatch) {
     return {
+        fetchCategories: (data) => dispatch(fetchCategories(data)),
         addPost: (data) => dispatch(addPost(data))
     }
 }

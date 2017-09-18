@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPostById } from '../actions';
+import { fetchPostById, deletePost } from '../actions';
 import { formatDate } from '../utils/helpers';
 import CommentList from './CommentList';
 
@@ -20,6 +20,12 @@ class Post extends Component {
             ? this.setState({ showComments: true, commentContainerClass: '', commentButtonLabel: 'Hide Comments' })
             : this.setState({ showComments: false, commentContainerClass: 'hidden', commentButtonLabel: 'View Comments' })
     }
+    handleDelete(post) {
+        const { history } = this.props;
+        this.props.deletePost(post.id);
+        history.push('/posts')
+    }
+
     render() {
         const post = this.props.post;
         return (
@@ -82,7 +88,8 @@ function mapStateToProps({ posts }) {
 // Pass event handler from Action Creators
 function mapDispatchToProps(dispatch) {
     return {
-        fetchPostById: (data) => dispatch(fetchPostById(data))
+        fetchPostById: (data) => dispatch(fetchPostById(data)),
+        deletePost: (data) => dispatch(deletePost(data))
     }
 }
 
