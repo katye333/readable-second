@@ -90,9 +90,11 @@ export function fetchPosts() {
     return dispatch => {
         dispatch(requestPosts())
 
-        return fetch(`${url}/posts`, { method: 'GET', headers })
-            .then(response => response.json())
-            .then(json => dispatch(receivePosts(json)))
+        return setTimeout(function() {
+            fetch(`${url}/posts`, { method: 'GET', headers })
+                .then(response => response.json())
+                .then(json => dispatch(receivePosts(json)))
+        }, 1000)
     }
 }
 
@@ -224,7 +226,7 @@ function receiveDeletePost(post) {
 
 export function deletePost(postId) {
     return dispatch => {
-        dispatch(requestDeletePost())
+
         return fetch(`${url}/posts/${postId}`, {
                 method: 'DELETE',
                 headers: {

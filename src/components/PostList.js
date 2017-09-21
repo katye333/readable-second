@@ -13,7 +13,6 @@ class PostList extends Component {
     };
     componentDidMount() {
         const category = this.props.match.params.path;
-
         category // is available
             ? this.props.fetchPostsByCategory(category)
             : this.props.fetchPosts();
