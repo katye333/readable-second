@@ -6,7 +6,6 @@ import { formatDate } from '../utils/helpers';
 
 class PostList extends Component {
     state = {
-        sort: 'vote',
         voteLabel: "✔ By Vote Score",
         timeLabel: "By Time"
     };

@@ -30,6 +30,8 @@ export const COMMENT_EDIT_REQUEST = 'COMMENT_EDIT_REQUEST';
 export const COMMENT_EDIT_RECEIVE = 'COMMENT_EDIT_RECEIVE';
 export const COMMENT_DELETE_REQUEST = 'COMMENT_DELETE_REQUEST';
 export const COMMENT_DELETE_RECEIVE = 'COMMENT_DELETE_RECEIVE';
+export const COMMENT_SORT_VOTE = 'COMMENT_SORT_VOTE';
+export const COMMENT_SORT_TIME = 'COMMENT_SORT_TIME';
 
 /* ----------------------------------------- */
 /* ************ ACTION CREATORS ************ */
@@ -280,6 +282,7 @@ export function fetchComments(postId) {
             fetch(`${url}/posts/${postId}/comments`, { method: 'GET', headers })
                 .then(response => response.json())
                 .then(json => dispatch(receiveComments(json)))
+                .then(data => dispatch(sortByVoteComments(data.posts)))
         }, 1000)
     }
 }
@@ -400,5 +403,19 @@ export function deleteComment(commentId) {
             })
             .then(res => res.text())
             .then(json => dispatch(receiveDeleteComment(json)))
+    }
+}
+
+export function sortByVoteComments(comments) {
+    return {
+        type: COMMENT_SORT_VOTE,
+        comments: comments
+    }
+}
+
+export function sortByTimeComments(comments) {
+    return {
+        type: COMMENT_SORT_TIME,
+        comments: comments
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchComments, deleteComment } from '../actions';
+import { fetchComments, deleteComment, sortByVoteComments, sortByTimeComments } from '../actions';
 import { formatDate } from '../utils/helpers';
 
 class CommentList extends Component {
@@ -14,16 +14,11 @@ class CommentList extends Component {
         this.props.fetchComments(this.props.postId);
     }
 
-    handleSort(event) {
-        event.preventDefault();
-        const newSort = event.target.id;
-
-        if (this.state.sort !== newSort)
-            this.setState({ sort: newSort })
-
+    handleSort(e) {
+        const newSort = e.target.id;
         newSort === 'vote'
-            ? this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
-            : this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
+            ? this.props.sortByVoteComments(this.props.comments) && this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
+            : this.props.sortByTimeComments(this.props.comments) && this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
     }
     handleDelete(comment) {
         const { history } = this.props;
@@ -97,7 +92,9 @@ function mapStateToProps({ comments }) {
 function mapDispatchToProps(dispatch) {
     return {
         fetchComments: (data) => dispatch(fetchComments(data)),
-        deleteComment: (data) => dispatch(deleteComment(data))
+        deleteComment: (data) => dispatch(deleteComment(data)),
+        sortByVoteComments: (data) => dispatch(sortByVoteComments(data)),
+        sortByTimeComments: (data) => dispatch(sortByTimeComments(data))
     }
 }
 

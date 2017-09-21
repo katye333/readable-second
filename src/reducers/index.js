@@ -28,7 +28,9 @@ import {
     COMMENT_EDIT_REQUEST,
     COMMENT_EDIT_RECEIVE,
     COMMENT_DELETE_REQUEST,
-    COMMENT_DELETE_RECEIVE
+    COMMENT_DELETE_RECEIVE,
+    COMMENT_SORT_VOTE,
+    COMMENT_SORT_TIME
 } from '../actions';
 
 /* Reducers */
@@ -253,6 +255,20 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
                         deleted: !comment.deleted
                     })
                 })
+            })
+
+        case COMMENT_SORT_VOTE:
+            return Object.assign({}, state, {
+                fetchingComments: false,
+                sort: 'voteScore',
+                comments: _.sortBy(state.comments, 'voteScore').reverse()
+            })
+
+        case COMMENT_SORT_TIME:
+            return Object.assign({}, state, {
+                fetchingComments: false,
+                sort: 'timestamp',
+                comments: _.sortBy(state.comments, 'timestamp').reverse()
             })
 
         default:
