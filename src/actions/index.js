@@ -259,9 +259,11 @@ export function fetchComments(postId) {
     return dispatch => {
         dispatch(requestComments())
 
-        return fetch(`${url}/posts/${postId}/comments`, { method: 'GET', headers })
-            .then(response => response.json())
-            .then(json => dispatch(receiveComments(json)))
+        return setTimeout(function() {
+            fetch(`${url}/posts/${postId}/comments`, { method: 'GET', headers })
+                .then(response => response.json())
+                .then(json => dispatch(receiveComments(json)))
+        }, 1000)
     }
 }
 

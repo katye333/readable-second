@@ -26,9 +26,9 @@ class CommentList extends Component {
             : this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
     }
     handleDelete(comment) {
-        const { history, dispatch } = this.props;
+        const { history } = this.props;
         this.props.deleteComment(comment.id);
-        history.push('/posts/' + this.props.match.params.id)
+        history.push('/posts/' + this.props.postId)
     }
 
     render() {

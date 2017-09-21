@@ -60,7 +60,7 @@ class Post extends Component {
 
 								<div className={this.state.commentContainerClass}>
 									<hr />
-									<CommentList postId={post.id} />
+									<CommentList history={this.props.history} postId={post.id} />
 								</div>
 							</div>
 							<div className="panel-footer">
