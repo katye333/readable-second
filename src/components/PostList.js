@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
-import { fetchPosts, fetchPostsByCategory, deletePost } from '../actions';
+import { fetchPosts, fetchPostsByCategory, deletePost, sortByVotePosts, sortByTimePosts } from '../actions';
 import { formatDate } from '../utils/helpers';
 
 class PostList extends Component {
@@ -15,42 +14,23 @@ class PostList extends Component {
         const category = this.props.match.params.path;
         category // is available
             ? this.props.fetchPostsByCategory(category)
-            : this.props.fetchPosts();
+            : this.props.fetchPosts()
     }
 
     handleSort(e) {
         const newSort = e.target.id;
-
-        if (this.state.sort !== newSort)
-            this.setState({ sort: newSort })
-
         newSort === 'vote'
-            ? this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
-            : this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
+            ? this.props.sortByVotePosts(this.props.posts) && this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
+            : this.props.sortByTimePosts(this.props.posts) && this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
     }
     render() {
         const posts = this.props.posts;
-        let sortedPosts;
-
-        if (this.state.sort === 'vote') {
-            if (posts && posts.length && posts.length > 0) {
-                sortedPosts = _.sortBy(posts, 'voteScore').reverse();
-            } else {
-                sortedPosts = posts;
-            }
-        } else {
-            if (posts && posts.length && posts.length > 0) {
-                sortedPosts = _.sortBy(posts, 'timestamp').reverse();
-            } else {
-                sortedPosts = posts;
-            }
-        }
         return (
             <div className="container">
 				<div className="row">
 					<div className="col-sm-offset-1 col-sm-10">
-						{sortedPosts.length > 0 &&
-							sortedPosts.filter((obj) => {
+						{posts.length > 0 &&
+							posts.filter((obj) => {
 								if (obj.deleted === false)
 									return obj;
 							}).map((post) => {
@@ -112,7 +92,9 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchPosts: () => dispatch(fetchPosts()),
         fetchPostsByCategory: (data) => dispatch(fetchPostsByCategory(data)),
-        deletePost: (data) => dispatch(deletePost(data))
+        deletePost: (data) => dispatch(deletePost(data)),
+        sortByVotePosts: (data) => dispatch(sortByVotePosts(data)),
+        sortByTimePosts: (data) => dispatch(sortByTimePosts(data))
     }
 }
 

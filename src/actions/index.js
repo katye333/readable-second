@@ -15,6 +15,8 @@ export const POST_EDIT_RECEIVE = 'POST_EDIT_RECEIVE';
 export const POST_DELETE = 'POST_DELETE';
 export const POST_DELETE_REQUEST = 'POST_DELETE_REQUEST';
 export const POST_DELETE_RECEIVE = 'POST_DELETE_RECEIVE';
+export const POST_SORT_VOTE = 'POST_SORT_VOTE';
+export const POST_SORT_TIME = 'POST_SORT_TIME';
 
 export const COMMENT_REQUEST = 'COMMENT_REQUEST';
 export const COMMENT_RECEIVE = 'COMMENT_RECEIVE';
@@ -94,6 +96,7 @@ export function fetchPosts() {
             fetch(`${url}/posts`, { method: 'GET', headers })
                 .then(response => response.json())
                 .then(json => dispatch(receivePosts(json)))
+                .then(data => dispatch(sortByVotePosts(data.posts)))
         }, 1000)
     }
 }
@@ -237,6 +240,20 @@ export function deletePost(postId) {
             })
             .then(res => res.text())
             .then(json => dispatch(receiveDeletePost(json)))
+    }
+}
+
+export function sortByVotePosts(posts) {
+    return {
+        type: POST_SORT_VOTE,
+        posts: posts
+    }
+}
+
+export function sortByTimePosts(posts) {
+    return {
+        type: POST_SORT_TIME,
+        posts: posts
     }
 }
 

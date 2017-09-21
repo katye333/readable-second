@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import _ from 'lodash';
 import {
     CATEGORY_REQUEST,
     CATEGORY_RECEIVE,
@@ -14,6 +15,8 @@ import {
     POST_EDIT_RECEIVE,
     POST_DELETE_REQUEST,
     POST_DELETE_RECEIVE,
+    POST_SORT_VOTE,
+    POST_SORT_TIME,
     COMMENT_REQUEST,
     COMMENT_RECEIVE,
     COMMENT_BY_ID_REQUEST,
@@ -140,6 +143,20 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
                         deleted: !post.deleted
                     })
                 })
+            })
+
+        case POST_SORT_VOTE:
+            return Object.assign({}, state, {
+                fetchingPosts: false,
+                sort: 'voteScore',
+                posts: _.sortBy(state.posts, 'voteScore').reverse()
+            })
+
+        case POST_SORT_TIME:
+            return Object.assign({}, state, {
+                fetchingPosts: false,
+                sort: 'timestamp',
+                posts: _.sortBy(state.posts, 'timestamp').reverse()
             })
 
         default:
