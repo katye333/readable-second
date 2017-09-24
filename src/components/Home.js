@@ -2,26 +2,17 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Home extends Component {
-    render(){
-        return(
-            <div>
-                <nav className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <a className="navbar-brand" href="/">Readable</a>
-                        </div>
-                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul className="nav navbar-nav">
-                                <li><Link to="/">Home</Link></li>
-                                <li><Link to="/categories">Categories</Link></li>
-                                <li><Link to="/posts">Posts</Link></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-                <div className="container">
-                    {this.props.children}
-                </div>
+    render() {
+        return (
+            <div
+            	className="w3-sidebar w3-bar-block w3-win-metro-dark-purple w3-col"
+            	style={{
+            		width: '200px',
+            		marginLeft: '-20px'
+            	}}>
+                <Link to="/" className="w3-bar-item w3-button">Home</Link>
+				<Link to="/categories" className="w3-bar-item w3-button">Categories</Link>
+				<Link to="/posts" className="w3-bar-item w3-button">Posts</Link>
             </div>
         );
     }

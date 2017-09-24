@@ -25,54 +25,80 @@ class PostList extends Component {
     render() {
         const posts = this.props.posts;
         return (
-            <div className="container">
-				<div className="row">
-					<div className="col-sm-offset-1 col-sm-10">
-						{posts.length > 0 &&
-							posts.filter((obj) => {
-								if (obj.deleted === false)
-									return obj;
-							}).map((post) => {
-							return (
-								<div key={post.id} className="panel panel-default">
-									<div className="panel-heading" key={post.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-										<div style={{ display: 'flex', flexDirection: 'row' }}>
-											<span className="glyphicon glyphicon-user" style={{ padding: '10px', paddingTop: '20px' }}></span>
-											<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
-												<div style={{ flexDirection: 'row' }}>
-													<strong>Title: </strong><Link to={'/posts/'+ post.id}>{post.title}</Link>
-												</div>
-												<div><strong>Author: </strong>{post.author}</div>
-											</div>
-										</div>
-										<div>
-											<div style={{ display: 'flex', flexDirection: 'row' }}>
-												<span style={{ paddingTop: '20px', fontSize: '18px' }}>{post.voteScore}</span>
-												<div style={{ display: 'flex', flexDirection: 'column', marginTop: '5px' }}>
-													<span className="glyphicon glyphicon-arrow-up" style={{ padding: '5px', fontSize: '20px', color: '#1fc51f' }}></span>
-													<span className="glyphicon glyphicon-arrow-down" style={{ padding: '5px', fontSize: '20px', color: 'red' }}></span>
-												</div>
-											</div>
+            <div className="w3-container" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
+
+            	<div className="w3-bar" style={{ marginBottom: '10px' }}>
+	            	<Link to="/newPost" className="w3-bar-item w3-button w3-green w3-padding-large" style={{ fontSize: '18px' }}>
+	            		<span className="fa fa-plus"></span>
+	            		&nbsp; New Post
+	            	</Link>
+
+            		<div className="w3-dropdown-hover w3-right">
+	            		<button className="w3-bar-item w3-button w3-black w3-padding-large" style={{ fontSize: '18px' }}>
+	            			<span className="fa fa-sort"></span>
+	            		</button>
+	            		<div className="w3-dropdown-content w3-bar-block w3-border" style={{ marginTop: '2.2%' }}>
+	            			<a id="vote" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</a>
+	            			<a id="time" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</a>
+	            		</div>
+		            </div>
+	            </div>
+				{posts.length > 0 &&
+					posts.filter((obj) => {
+						if (obj.deleted === false)
+							return obj;
+					}).map((post) => {
+					return (
+						<div key={post.id} className="w3-card-4">
+							<div className="w3-container w3-blue" key={post.id}>
+								<div style={{
+										display: 'flex',
+										flexDirection: 'row'
+									}}>
+									<div style={{
+											display: 'flex',
+											flexDirection: 'column',
+											justifyContent: 'center',
+											marginRight: '20px'
+										}}>
+										<span
+											className="fa fa-angle-up"
+											style={{
+												color: '#1fc51f',
+												fontSize: '36px'
+											}}>
+										</span>
+										<span style={{ fontSize: '18px', marginLeft: '5px' }}>{post.voteScore}</span>
+										<span
+											className="fa fa-angle-down"
+											style={{
+												color: 'red',
+												fontSize: '36px'
+											}}>
+										</span>
+									</div>
+									<div style={{ paddingBottom: '10px', display: 'flex', flexDirection: 'column' }}>
+										<div style={{ flexDirection: 'row' }}>
+											<h1><Link
+													to={'/posts/'+ post.id}
+													style={{ textDecoration: 'none' }}>
+													{post.title}
+												</Link>
+											</h1>
+											<strong>Author: </strong>{post.author}
 										</div>
 									</div>
-									<div className="panel-body">
-										<div><strong>Posted At: </strong>{formatDate(post.timestamp)}</div>
-										<div><strong>Category: </strong>{post.category}</div>
-										<div>{post.body}</div>
-									</div>
-									<div className="panel-footer"></div>
 								</div>
-							);
-						})}
-
-						<Link to="/newPost" className="btn btn-primary">Create New Post</Link>
-
-						<ul className="list-group">
-							<li id="vote" className="list-group-item sort_list" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</li>
-							<li id="time" className="list-group-item sort_list" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</li>
-						</ul>
-					</div>
-				</div>
+							</div>
+							<div className="w3-container w3-padding-large">
+								<p>{post.body}</p>
+							</div>
+							<div className="w3-container w3-blue w3-padding-large">
+								<Link to={'/posts/'+ post.id} className="w3-button">View Details</Link>
+							</div>
+						</div>
+					);
+				})}
 			</div>
         );
     }

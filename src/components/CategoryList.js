@@ -11,21 +11,35 @@ class CategoryList extends Component {
     render() {
         const categories = this.props.categories;
         return (
-            <div>
-                <h1>Category List</h1>
-                <div className="list-group">
+            <div
+            	className="w3-card-4 w3-content"
+            	style={{
+            		marginLeft: '200px',
+            		marginRight: '20px',
+            		marginTop: '20px'
+            	}}>
+	            <div className="w3-container w3-win-metro-dark-purple">
+	            	<h1 className="w3-xxxlarge">Category List</h1>
+	           	</div>
+            	<ul className="w3-ul w3-hoverable">
                 	{categories && categories.length > 0 && categories.map((cat) => {
                 		return (
-	                		<Link
-			                    to={"/categories/"+cat.path}
-			                    className="list-group-item"
-			                    key={cat.path}>
-			                    {cat.name}
-			                </Link>
+                			<li
+                				key={cat.path}
+                				className="w3-padding-large w3-hover-light-green">
+		                		<Link
+		                			className="w3-large"
+				                    to={"/categories/"+cat.path}>
+				                    {cat.name}
+				                </Link>
+			                </li>
                 		)
                 	})}
-                </div>
-            </div>
+	            </ul>
+	            <div className="w3-container w3-card-2 w3-win-metro-dark-purple">
+  					<h5>Select a category to see posts</h5>
+				</div>
+	        </div>
         )
     };
 }
