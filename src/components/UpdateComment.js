@@ -14,7 +14,7 @@ class UpdateComment extends Component {
             voteScore: "",
             deleted: false,
             parentDeleted: false
-        }
+        };
     }
 
     componentDidMount() {
@@ -36,9 +36,9 @@ class UpdateComment extends Component {
                         voteScore: obj.comments.voteScore,
                         deleted: obj.comments.deleted,
                         parentDeleted: obj.comments.parentDeleted
-                    })
+                    });
                 }
-            })
+            });
         });
     }
 
@@ -48,15 +48,15 @@ class UpdateComment extends Component {
 
         this.setState({
             [name]: value
-        })
+        });
     }
 
     handleEdit = (event) => {
         event.preventDefault();
         const { history } = this.props;
 
-        this.props.editComment(this.state)
-        history.push('/posts/' + this.state.parentId)
+        this.props.editComment(this.state);
+        history.push('/posts/' + this.state.parentId);
     }
     render() {
         return (

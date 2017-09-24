@@ -20,8 +20,8 @@ class AddComment extends Component {
             parentDeleted: false,
         }, formValues);
 
-        this.props.addComment(newPost)
-        history.push('/posts/' + this.props.match.params.id)
+        this.props.addComment(newPost);
+        history.push('/posts/' + this.props.match.params.id);
     }
     render() {
         return (
