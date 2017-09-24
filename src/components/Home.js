@@ -22,7 +22,7 @@ class Home extends Component {
 
 				<footer className="w3-container w3-light-green"
 					style={{
-						position: 'absolute',
+						position: 'fixed',
 						right: '0',
 						bottom: '0',
 						left: '0',
