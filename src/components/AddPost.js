@@ -21,7 +21,7 @@ class AddPost extends Component {
 
         this.setState({
             [name]: value
-        })
+        });
     }
     handleSubmit = (event) => {
         event.preventDefault();
@@ -36,8 +36,8 @@ class AddPost extends Component {
             deleted: false,
         }, formValues);
 
-        this.props.addPost(newPost)
-        history.push('/posts')
+        this.props.addPost(newPost);
+        history.push('/posts');
     }
     render() {
         return (
@@ -50,7 +50,7 @@ class AddPost extends Component {
 					<div className="w3-row w3-section">
 						<label htmlFor="post_category" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Category:</label>
 						<div className="w3-rest">
-							<select className="w3-input" id="post_category" name="category">
+							<select className="w3-select" id="post_category" name="category">
 								<option></option>
 
 								{this.props.categories.map((category) => {

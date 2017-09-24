@@ -15,7 +15,7 @@ class UpdatePost extends Component {
             voteScore: "",
             deleted: false,
             categoryList: []
-        }
+        };
     }
 
     componentDidMount() {
@@ -23,13 +23,13 @@ class UpdatePost extends Component {
             res(this.props.fetchCategories());
         });
         let p2 = new Promise((res, rej) => {
-            res(this.props.fetchPostById(this.props.match.params.id))
+            res(this.props.fetchPostById(this.props.match.params.id));
         });
 
         Promise.all([p1, p2]).then(values => {
             values.forEach(obj => {
                 if (obj.type === 'CATEGORY_RECEIVE')
-                    this.setState({ categoryList: obj })
+                    this.setState({ categoryList: obj });
                 else {
                     this.setState({
                         id: obj.posts.id,
@@ -40,9 +40,9 @@ class UpdatePost extends Component {
                         body: obj.posts.body,
                         voteScore: obj.posts.voteScore,
                         deleted: obj.posts.deleted
-                    })
+                    });
                 }
-            })
+            });
         });
     }
 
@@ -52,15 +52,15 @@ class UpdatePost extends Component {
 
         this.setState({
             [name]: value
-        })
+        });
     }
 
     handleEdit = (event) => {
         event.preventDefault();
         const { history } = this.props;
 
-        this.props.editPost(this.state)
-        history.push('/posts')
+        this.props.editPost(this.state);
+        history.push('/posts');
     }
     render() {
         return (

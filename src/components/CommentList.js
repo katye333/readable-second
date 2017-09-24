@@ -23,7 +23,7 @@ class CommentList extends Component {
     handleDelete(comment) {
         const { history } = this.props;
         this.props.deleteComment(comment.id);
-        history.push('/posts/' + this.props.postId)
+        history.push('/posts/' + this.props.postId);
     }
 
     render() {

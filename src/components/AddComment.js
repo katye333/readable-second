@@ -25,31 +25,26 @@ class AddComment extends Component {
     }
     render() {
         return (
-            <div className="container">
+            <div className="w3-content" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
 				<form onSubmit={this.handleSubmit}>
-					<fieldset>
-						<legend>New Comment</legend>
-
-						<div className="form-group row">
-							<label htmlFor="post_author" className="col-sm-2">Author</label>
-							<div className="col-sm-6">
-								<input type="text" className="form-control" id="post_author" name="author" />
-							</div>
+					<div className="w3-container w3-blue">
+						<h2 className="w3-center">New Comment</h2>
+					</div>
+					<div className="w3-row w3-section">
+						<label htmlFor="post_author" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Author:</label>
+						<div className="w3-rest">
+							<input type="text" className="w3-input" id="post_author" name="author" />
 						</div>
+					</div>
 
-						<div className="form-group row">
-							<label htmlFor="post_body" className="col-sm-2">Body</label>
-							<div className="col-sm-6">
-								<textarea rows="6" className="form-control" id="post_body" name="body"></textarea>
-							</div>
+					<div className="w3-row w3-section">
+						<label htmlFor="post_body" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Body:</label>
+						<div className="w3-rest">
+							<textarea rows="6" className="w3-input" id="post_body" name="body"></textarea>
 						</div>
+					</div>
 
-						<div className="form-group row">
-							<div className="col-sm-offset-2 col-sm-2">
-								<button type="submit" className="btn btn-lg btn-primary">Submit</button>
-							</div>
-						</div>
-					</fieldset>
+					<button type="submit" className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Submit</button>
 				</form>
 			</div>
         );
