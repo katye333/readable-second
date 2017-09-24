@@ -41,13 +41,13 @@ function categories(state = { fetchingCategories: false, categories: [] }, actio
             return Object.assign({}, state, {
                 fetchingCategories: true,
                 categories: []
-            })
+            });
 
         case CATEGORY_RECEIVE:
             return Object.assign({}, state, {
                 fetchingCategories: false,
                 categories: action.categories
-            })
+            });
 
         default:
             return state;
@@ -60,55 +60,55 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
             return Object.assign({}, state, {
                 fetchingPosts: true,
                 posts: []
-            })
+            });
 
         case POST_RECEIVE:
             return Object.assign({}, state, {
                 fetchingPosts: false,
                 posts: action.posts
-            })
+            });
 
         case POST_BY_ID_REQUEST:
             return Object.assign({}, state, {
                 fetchingPosts: true,
                 posts: []
-            })
+            });
 
         case POST_BY_ID_RECEIVE:
             return Object.assign({}, state, {
                 fetchingPosts: false,
                 posts: action.posts
-            })
+            });
 
         case POST_BY_CATEGORY_REQUEST:
             return Object.assign({}, state, {
                 fetchingPosts: true,
                 posts: []
-            })
+            });
 
         case POST_BY_CATEGORY_RECEIVE:
             return Object.assign({}, state, {
                 fetchingPosts: false,
                 posts: action.posts
-            })
+            });
 
         case POST_ADD_REQUEST:
             return Object.assign({}, state, {
                 fetchingPosts: true,
                 posts: []
-            })
+            });
 
         case POST_ADD_RECEIVE:
             return Object.assign({}, state, {
                 fetchingPosts: false,
                 posts: action.posts
-            })
+            });
 
         case POST_EDIT_REQUEST:
             return Object.assign({}, state, {
                 fetchingPosts: true,
                 posts: []
-            })
+            });
 
         case POST_EDIT_RECEIVE:
             return Object.assign({}, state, {
@@ -125,13 +125,13 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
                         body: action.body
                     })
                 })
-            })
+            });
 
         case POST_DELETE_REQUEST:
             return Object.assign({}, state, {
                 fetchingPosts: true,
                 posts: []
-            })
+            });
 
         case POST_DELETE_RECEIVE:
             return Object.assign({}, state, {
@@ -145,21 +145,21 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
                         deleted: !post.deleted
                     })
                 })
-            })
+            });
 
         case POST_SORT_VOTE:
             return Object.assign({}, state, {
                 fetchingPosts: false,
                 sort: 'voteScore',
                 posts: _.sortBy(state.posts, 'voteScore').reverse()
-            })
+            });
 
         case POST_SORT_TIME:
             return Object.assign({}, state, {
                 fetchingPosts: false,
                 sort: 'timestamp',
                 posts: _.sortBy(state.posts, 'timestamp').reverse()
-            })
+            });
 
         default:
             return state;
@@ -173,49 +173,49 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
                 fetchingComments: true,
                 postId: action.postId,
                 comments: []
-            })
+            });
 
         case COMMENT_RECEIVE:
             return Object.assign({}, state, {
                 fetchingComments: false,
                 postId: action.postId,
                 comments: action.comments
-            })
+            });
 
         case COMMENT_BY_ID_REQUEST:
             return Object.assign({}, state, {
                 fetchingComments: true,
                 postId: action.postId,
                 comments: []
-            })
+            });
 
         case COMMENT_BY_ID_RECEIVE:
             return Object.assign({}, state, {
                 fetchingComments: false,
                 postId: action.postId,
                 comments: action.comments
-            })
+            });
 
         case COMMENT_ADD_REQUEST:
             return Object.assign({}, state, {
                 fetchingComments: true,
                 postId: action.postId,
                 comments: []
-            })
+            });
 
         case COMMENT_ADD_RECEIVE:
             return Object.assign({}, state, {
                 fetchingComments: false,
                 postId: action.postId,
                 comments: action.comments
-            })
+            });
 
         case COMMENT_EDIT_REQUEST:
             return Object.assign({}, state, {
                 fetchingComments: true,
                 postId: action.postId,
                 comments: []
-            })
+            });
 
         case COMMENT_EDIT_RECEIVE:
             return Object.assign({}, state, {
@@ -233,14 +233,14 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
                         body: action.body
                     })
                 })
-            })
+            });
 
         case COMMENT_DELETE_REQUEST:
             return Object.assign({}, state, {
                 fetchingComments: true,
                 postId: action.postId,
                 comments: []
-            })
+            });
 
         case COMMENT_DELETE_RECEIVE:
             return Object.assign({}, state, {
@@ -255,21 +255,21 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
                         deleted: !comment.deleted
                     })
                 })
-            })
+            });
 
         case COMMENT_SORT_VOTE:
             return Object.assign({}, state, {
                 fetchingComments: false,
                 sort: 'voteScore',
                 comments: _.sortBy(state.comments, 'voteScore').reverse()
-            })
+            });
 
         case COMMENT_SORT_TIME:
             return Object.assign({}, state, {
                 fetchingComments: false,
                 sort: 'timestamp',
                 comments: _.sortBy(state.comments, 'timestamp').reverse()
-            })
+            });
 
         default:
             return state;
