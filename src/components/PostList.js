@@ -25,7 +25,7 @@ class PostList extends Component {
     render() {
         const posts = this.props.posts;
         return (
-            <div className="w3-container" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
+            <div className="w3-container" style={{ marginLeft: '250px', marginTop: '20px', width: '50%' }}>
 
             	<div className="w3-bar" style={{ marginBottom: '10px' }}>
 	            	<Link to="/newPost" className="w3-bar-item w3-button w3-green w3-padding-large" style={{ fontSize: '18px' }}>

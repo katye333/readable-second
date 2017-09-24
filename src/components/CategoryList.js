@@ -18,7 +18,7 @@ class CategoryList extends Component {
             		marginRight: '20px',
             		marginTop: '20px'
             	}}>
-	            <div className="w3-container w3-win-metro-dark-purple">
+	            <div className="w3-container w3-blue">
 	            	<h1 className="w3-xxxlarge">Category List</h1>
 	           	</div>
             	<ul className="w3-ul w3-hoverable">
@@ -26,7 +26,7 @@ class CategoryList extends Component {
                 		return (
                 			<li
                 				key={cat.path}
-                				className="w3-padding-large w3-hover-light-green">
+                				className="w3-padding-large">
 		                		<Link
 		                			className="w3-large"
 				                    to={"/categories/"+cat.path}>
@@ -36,7 +36,7 @@ class CategoryList extends Component {
                 		)
                 	})}
 	            </ul>
-	            <div className="w3-container w3-card-2 w3-win-metro-dark-purple">
+	            <div className="w3-container w3-card-2 w3-blue">
   					<h5>Select a category to see posts</h5>
 				</div>
 	        </div>

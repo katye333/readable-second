@@ -16,6 +16,7 @@ class App extends Component {
         return (
             <div className="w3-container">
 	    		<Route path="/" component={ Home } />
+	    		<Route exact path="/" component={ CategoryList } />
 	    		<Route exact path="/categories" component={ CategoryList } />
 	    		<Route path="/categories/:path" component={ PostList } />
 	    		<Route exact path="/posts" component={ PostList } />
