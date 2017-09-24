@@ -64,78 +64,69 @@ class UpdatePost extends Component {
     }
     render() {
         return (
-            <div className="container">
-				<form onSubmit={this.handleEdit}>
-					<fieldset>
-						<legend>Edit Post</legend>
+			<div className="w3-content" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
+            	<div className="w3-container w3-blue">
+            		<h2 className="w3-center">Edit Post</h2>
+            	</div>
 
-						<div className="form-group row">
-							<label htmlFor="post_category" className="col-sm-2">Category</label>
-							<div className="col-sm-4">
-								<select
-									className="form-control"
-									id="post_category"
-									name="category"
-									value={this.state.category}
-									onChange={this.handleChange}>
-									<option></option>
+				<form onSubmit={this.handleEdit} className="w3-container w3-card-4">
+					<div className="w3-row w3-section">
+						<label htmlFor="post_category" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Category:</label>
+						<div className="w3-rest">
+							<select
+								id="post_category"
+								className="w3-select"
+								name="category"
+								value={this.state.category}
+								onChange={this.handleChange}>
+								<option></option>
 
-									{this.props.categories.map((category) => {
-										return (
-											<option key={category.name} value={category.name}>{category.name}</option>
-										);
-									})}
-								</select>
-							</div>
+								{this.props.categories.map((category) => {
+									return (
+										<option key={category.name} value={category.name}>{category.name}</option>
+									);
+								})}
+							</select>
 						</div>
-
-						<div className="form-group row">
-							<label htmlFor="post_title" className="col-sm-2">Title</label>
-							<div className="col-sm-6">
-								<input
-									className="form-control"
-									type="text"
-									id="post_title"
-									name="title"
-									value={this.state.title}
-									onChange={this.handleChange} />
-							</div>
+					</div>
+					<div className="w3-row w3-section">
+						<label htmlFor="post_title" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Title:</label>
+						<div className="w3-rest">
+							<input
+								className="w3-input"
+								type="text"
+								id="post_title"
+								name="title"
+								value={this.state.title}
+								onChange={this.handleChange} />
 						</div>
-
-						<div className="form-group row">
-							<label htmlFor="post_author" className="col-sm-2">Author</label>
-							<div className="col-sm-6">
-								<input
-									type="text"
-									className="form-control"
-									id="post_author"
-									name="author"
-									value={this.state.author}
-									onChange={this.handleChange} />
-							</div>
+					</div>
+					<div className="w3-row w3-section">
+						<label htmlFor="post_author" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Author:</label>
+						<div className="w3-rest">
+							<input
+								type="text"
+								className="w3-input"
+								id="post_author"
+								name="author"
+								value={this.state.author}
+								onChange={this.handleChange} />
 						</div>
-
-						<div className="form-group row">
-							<label htmlFor="post_body" className="col-sm-2">Body</label>
-							<div className="col-sm-6">
-								<textarea
-									rows="6"
-									className="form-control"
-									id="post_body"
-									name="body"
-									value={this.state.body}
-									onChange={this.handleChange}></textarea>
-							</div>
+					</div>
+					<div className="w3-row w3-section">
+						<label htmlFor="post_body" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Body:</label>
+						<div className="w3-rest">
+							<textarea
+								rows="6"
+								className="w3-input"
+								id="post_body"
+								name="body"
+								value={this.state.body}
+								onChange={this.handleChange}>
+							</textarea>
 						</div>
-
-						<div className="form-group row">
-							<div className="col-sm-offset-2 col-sm-2">
-								<button
-									type="submit"
-									className="btn btn-lg btn-primary">Submit</button>
-							</div>
-						</div>
-					</fieldset>
+					</div>
+					<button type="submit" className="w3-button w3-block w3-section w3-blue w3-ripple w3-padding">Submit</button>
 				</form>
 			</div>
         );

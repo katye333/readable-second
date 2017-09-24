@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPostById, deletePost } from '../actions';
+import { fetchPostById, deletePost, votePost } from '../actions';
 import { formatDate } from '../utils/helpers';
 import CommentList from './CommentList';
 
@@ -13,21 +13,38 @@ class Post extends Component {
     };
     componentDidMount() {
         const postId = this.props.match.params.id;
-        this.props.fetchPostById(postId)
+        this.props.fetchPostById(postId);
     }
+
     handleExpand() {
         this.state.showComments === false
-            ? this.setState({ showComments: true, commentContainerClass: '', commentButtonLabel: 'Hide Comments' })
-            : this.setState({ showComments: false, commentContainerClass: 'hidden', commentButtonLabel: 'View Comments' })
+            ? this.setState({ showComments: true, commentButtonLabel: 'Hide Comments' })
+            : this.setState({ showComments: false, commentButtonLabel: 'View Comments' })
     }
     handleDelete(post) {
         const { history } = this.props;
         this.props.deletePost(post.id);
-        history.push('/posts')
+        history.push('/posts');
+    }
+    handleVote = (e, post) => {
+        e.preventDefault();
+        this.props.votePost(post.id, e.currentTarget.id);
     }
 
     render() {
         const post = this.props.post;
+        let commentContainer;
+
+        if (this.state.showComments === true) {
+        	commentContainer = <div>
+				<hr />
+				<CommentList history={this.props.history} postId={post.id} />
+			</div>
+        }
+        else {
+        	commentContainer = <div></div>
+        }
+
         return (
             <div className="w3-container" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
 				<div key={post.id} className="w3-card-4">
@@ -42,21 +59,25 @@ class Post extends Component {
 									justifyContent: 'center',
 									marginRight: '20px'
 								}}>
-								<span
-									className="fa fa-angle-up"
-									style={{
-										color: '#1fc51f',
-										fontSize: '36px'
-									}}>
-								</span>
-								<span style={{ fontSize: '18px', marginLeft: '5px' }}>{post.voteScore}</span>
-								<span
-									className="fa fa-angle-down"
-									style={{
-										color: 'red',
-										fontSize: '36px'
-									}}>
-								</span>
+								<button type="button" id="upVote" className="w3-button w3-circle" onClick={(e) => this.handleVote(e, post)}>
+									<span
+										className="fa fa-angle-up"
+										style={{
+											color: '#1fc51f',
+											fontSize: '36px'
+										}}>
+									</span>
+								</button>
+								<span style={{ fontSize: '18px', marginLeft: '20px' }}>{post.voteScore}</span>
+								<button type="button" id="downVote" className="w3-button w3-circle" onClick={(e) => this.handleVote(e, post)}>
+									<span
+										className="fa fa-angle-down"
+										style={{
+											color: 'red',
+											fontSize: '36px'
+										}}>
+									</span>
+								</button>
 							</div>
 							<div style={{ paddingBottom: '10px', display: 'flex', flexDirection: 'column' }}>
 								<div style={{ flexDirection: 'row' }}>
@@ -74,13 +95,10 @@ class Post extends Component {
 					</div>
 					<div className="w3-container w3-padding-large">
 						<p>{post.body}</p>
-
-						<div className={this.state.commentContainerClass}>
-							<hr />
-							<CommentList history={this.props.history} postId={post.id} />
-						</div>
 						<div><strong>Posted At: </strong>{formatDate(post.timestamp)}</div>
 						<div><strong>Category: </strong>{post.category}</div>
+
+						{commentContainer}
 					</div>
 
 					<div className="w3-container w3-blue" style={{ padding: '10px' }}>
@@ -114,7 +132,8 @@ function mapStateToProps({ posts }) {
 function mapDispatchToProps(dispatch) {
     return {
         fetchPostById: (data) => dispatch(fetchPostById(data)),
-        deletePost: (data) => dispatch(deletePost(data))
+        deletePost: (data) => dispatch(deletePost(data)),
+        votePost: (data) => dispatch(votePost(data))
     }
 }
 

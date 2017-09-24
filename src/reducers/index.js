@@ -11,6 +11,8 @@ import {
     POST_BY_CATEGORY_RECEIVE,
     POST_ADD_REQUEST,
     POST_ADD_RECEIVE,
+    POST_VOTE_REQUEST,
+    POST_VOTE_RECEIVE,
     POST_EDIT_REQUEST,
     POST_EDIT_RECEIVE,
     POST_DELETE_REQUEST,
@@ -101,6 +103,20 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
         case POST_ADD_RECEIVE:
             return Object.assign({}, state, {
                 fetchingPosts: false,
+                posts: action.posts
+            });
+
+        case POST_VOTE_REQUEST:
+            return Object.assign({}, state, {
+                fetchingPosts: true,
+                option: '',
+                posts: []
+            });
+
+        case POST_VOTE_RECEIVE:
+            return Object.assign({}, state, {
+                fetchingPosts: false,
+                option: action.option,
                 posts: action.posts
             });
 

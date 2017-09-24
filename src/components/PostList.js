@@ -49,7 +49,7 @@ class PostList extends Component {
 							return obj;
 					}).map((post) => {
 					return (
-						<div key={post.id} className="w3-card-4">
+						<div key={post.id} className="w3-card-4" style={{ marginBottom: '20px' }}>
 							<div className="w3-container w3-blue" key={post.id}>
 								<div style={{
 										display: 'flex',

@@ -10,6 +10,8 @@ export const POST_BY_CATEGORY_REQUEST = 'POST_BY_CATEGORY_REQUEST';
 export const POST_BY_CATEGORY_RECEIVE = 'POST_BY_CATEGORY_RECEIVE';
 export const POST_ADD_REQUEST = 'POST_ADD_REQUEST';
 export const POST_ADD_RECEIVE = 'POST_ADD_RECEIVE';
+export const POST_VOTE_REQUEST = 'POST_VOTE_REQUEST';
+export const POST_VOTE_RECEIVE = 'POST_VOTE_RECEIVE';
 export const POST_EDIT_REQUEST = 'POST_EDIT_REQUEST';
 export const POST_EDIT_RECEIVE = 'POST_EDIT_RECEIVE';
 export const POST_DELETE = 'POST_DELETE';
@@ -180,6 +182,42 @@ export function addPost(post) {
             })
             .then(response => response.json())
             .then(json => dispatch(receiveAddPost(json)))
+    }
+}
+
+function requestVotePost(postId, option) {
+    return {
+        type: POST_VOTE_REQUEST,
+        postId: postId,
+        option: option,
+        posts: []
+    };
+}
+
+function receiveVotePost(postId, option, json) {
+    return {
+        type: POST_VOTE_RECEIVE,
+        postId: postId,
+        option: option,
+        posts: json
+    }
+}
+
+export function votePost(postId, option) {
+    return dispatch => {
+        dispatch(requestVotePost(postId, option))
+
+        return fetch(`${url}/posts/${postId}`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(option)
+            })
+            .then(response => response.json())
+            .then(json => dispatch(receiveVotePost(postId, option, json)))
     }
 }
 
