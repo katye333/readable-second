@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchComments, deleteComment, sortByVoteComments, sortByTimeComments } from './CommentActions';
+import * as actions from './CommentActions';
 import { formatDate } from '../utils/helpers';
 
 class CommentList extends Component {
@@ -117,14 +117,4 @@ function mapStateToProps({ comments }) {
     }
 }
 
-// Pass event handler from Action Creators
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchComments: (data) => dispatch(fetchComments(data)),
-        deleteComment: (data) => dispatch(deleteComment(data)),
-        sortByVoteComments: (data) => dispatch(sortByVoteComments(data)),
-        sortByTimeComments: (data) => dispatch(sortByTimeComments(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommentList);
+export default connect(mapStateToProps, actions)(CommentList);

@@ -58,11 +58,4 @@ function mapStateToProps({ categories, posts }) {
     }
 }
 
-// Pass event handler from Action Creators
-function mapDispatchToProps(dispatch) {
-    return {
-        addComment: (data) => dispatch(addComment(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddComment);
+export default connect(mapStateToProps, addComment)(AddComment);

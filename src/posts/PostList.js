@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPosts, fetchPostsByCategory, deletePost, sortByVotePosts, sortByTimePosts } from '../posts/PostActions';
+import * as actions from '../posts/PostActions';
 import { formatDate } from '../utils/helpers';
 
 class PostList extends Component {
@@ -109,15 +109,4 @@ function mapStateToProps({ categories, posts }) {
     }
 }
 
-// Pass event handler from Action Creators
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchPosts: () => dispatch(fetchPosts()),
-        fetchPostsByCategory: (data) => dispatch(fetchPostsByCategory(data)),
-        deletePost: (data) => dispatch(deletePost(data)),
-        sortByVotePosts: (data) => dispatch(sortByVotePosts(data)),
-        sortByTimePosts: (data) => dispatch(sortByTimePosts(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostList);
+export default connect(mapStateToProps, actions)(PostList);

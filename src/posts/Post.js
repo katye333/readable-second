@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPostById, deletePost, votePost } from '../posts/PostActions';
+import * as actions from '../posts/PostActions';
 import { formatDate } from '../utils/helpers';
 import CommentList from '../comments/CommentList';
 
@@ -125,13 +125,4 @@ function mapStateToProps({ posts }) {
     }
 }
 
-// Pass event handler from Action Creators
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchPostById: (data) => dispatch(fetchPostById(data)),
-        deletePost: (data) => dispatch(deletePost(data)),
-        votePost: (data) => dispatch(votePost(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Post);
+export default connect(mapStateToProps, actions)(Post);

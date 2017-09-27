@@ -142,13 +142,4 @@ function mapStateToProps({ categories, posts }) {
     }
 }
 
-// Pass event handler from Action Creators
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchCategories: () => dispatch(fetchCategories()),
-        fetchPostById: (data) => dispatch(fetchPostById(data)),
-        editPost: (data) => dispatch(editPost(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UpdatePost);
+export default connect(mapStateToProps, { fetchCategories, fetchPostById, editPost })(UpdatePost);

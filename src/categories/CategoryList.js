@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchCategories } from './CategoryActions';
+import * as actions from './CategoryActions';
 
 class CategoryList extends Component {
     componentDidMount() {
@@ -45,11 +45,4 @@ function mapStateToProps({ categories }) {
     }
 }
 
-// Pass event handler from Action Creators
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchCategories: () => dispatch(fetchCategories())
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
+export default connect(mapStateToProps, actions)(CategoryList);

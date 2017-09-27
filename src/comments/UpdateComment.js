@@ -106,12 +106,4 @@ function mapStateToProps({ comments }) {
     }
 }
 
-// Pass event handler from Action Creators
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchCommentById: (data) => dispatch(fetchCommentById(data)),
-        editComment: (data) => dispatch(editComment(data))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateComment);
+export default connect(mapStateToProps, { fetchCommentById, editComment })(UpdateComment);
