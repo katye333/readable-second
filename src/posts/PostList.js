@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPosts, fetchPostsByCategory, deletePost, sortByVotePosts, sortByTimePosts } from '../actions';
+import { fetchPosts, fetchPostsByCategory, deletePost, sortByVotePosts, sortByTimePosts } from '../posts/PostActions';
 import { formatDate } from '../utils/helpers';
 
 class PostList extends Component {
@@ -51,13 +51,10 @@ class PostList extends Component {
 					return (
 						<div key={post.id} className="w3-card-4" style={{ marginBottom: '20px' }}>
 							<div className="w3-container w3-blue" key={post.id}>
-								<div style={{
-										display: 'flex',
-										flexDirection: 'row'
-									}}>
-									<div style={{
-											display: 'flex',
-											flexDirection: 'column',
+								<div className="flex_row">
+									<div
+										className="flex_column"
+										style={{
 											justifyContent: 'center',
 											marginRight: '20px'
 										}}>
@@ -77,7 +74,7 @@ class PostList extends Component {
 											}}>
 										</span>
 									</div>
-									<div style={{ paddingBottom: '10px', display: 'flex', flexDirection: 'column' }}>
+									<div style={{ paddingBottom: '10px' }} className="flex_column">
 										<div style={{ flexDirection: 'row' }}>
 											<h1><Link
 													to={'/posts/'+ post.id}

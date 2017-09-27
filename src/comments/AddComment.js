@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import serialize from 'form-serialize';
 import cuid from 'cuid';
-import { addComment } from '../actions';
+import { addComment } from './CommentActions';
 
 class AddComment extends Component {
     handleSubmit = (event) => {
@@ -25,20 +25,20 @@ class AddComment extends Component {
     }
     render() {
         return (
-            <div className="w3-content" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
+            <div className="w3-content comment_form_container">
 				<form onSubmit={this.handleSubmit}>
 					<div className="w3-container w3-blue">
 						<h2 className="w3-center">New Comment</h2>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_author" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Author:</label>
+						<label htmlFor="post_author" className="w3-col comment_inputs">Author:</label>
 						<div className="w3-rest">
 							<input type="text" className="w3-input" id="post_author" name="author" />
 						</div>
 					</div>
 
 					<div className="w3-row w3-section">
-						<label htmlFor="post_body" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Body:</label>
+						<label htmlFor="post_body" className="w3-col comment_inputs">Body:</label>
 						<div className="w3-rest">
 							<textarea rows="6" className="w3-input" id="post_body" name="body"></textarea>
 						</div>

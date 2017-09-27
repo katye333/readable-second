@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPostById, deletePost, votePost } from '../actions';
+import { fetchPostById, deletePost, votePost } from '../posts/PostActions';
 import { formatDate } from '../utils/helpers';
-import CommentList from './CommentList';
+import CommentList from '../comments/CommentList';
 
 class Post extends Component {
     state = {
@@ -46,16 +46,13 @@ class Post extends Component {
         }
 
         return (
-            <div className="w3-container" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
+            <div className="w3-container post_form_container">
 				<div key={post.id} className="w3-card-4">
 					<div className="w3-container w3-blue w3-padding-large">
-						<div style={{
-								display: 'flex',
-								flexDirection: 'row'
-							}}>
-							<div style={{
-									display: 'flex',
-									flexDirection: 'column',
+						<div className="flex_row">
+							<div
+								className="flex_column"
+								style={{
 									justifyContent: 'center',
 									marginRight: '20px'
 								}}>
@@ -79,7 +76,7 @@ class Post extends Component {
 									</span>
 								</button>
 							</div>
-							<div style={{ paddingBottom: '10px', display: 'flex', flexDirection: 'column' }}>
+							<div style={{ paddingBottom: '10px' }} className="flex_column">
 								<div style={{ flexDirection: 'row' }}>
 									<h1>
 										<Link

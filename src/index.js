@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
-import App from './components/App';
-import reducer from './reducers'
+import App from './app/App';
+import reducer from './app/reducers'
 import registerServiceWorker from './registerServiceWorker';
 
 // Middleware

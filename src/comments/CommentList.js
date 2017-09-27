@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchComments, deleteComment, sortByVoteComments, sortByTimeComments } from '../actions';
+import { fetchComments, deleteComment, sortByVoteComments, sortByTimeComments } from './CommentActions';
 import { formatDate } from '../utils/helpers';
 
 class CommentList extends Component {
@@ -29,7 +29,7 @@ class CommentList extends Component {
     render() {
         const comments = this.props.comments;
         return (
-            <div className="w3-container" style={{ marginTop: '20px',width: '100%' }}>
+            <div className="w3-container comment_list_container">
 				<div className="w3-bar" style={{ marginBottom: '10px' }}>
             		<div className="w3-dropdown-hover w3-right">
 	            		<button className="w3-bar-item w3-button w3-black w3-padding-large" style={{ fontSize: '18px' }}>
@@ -55,25 +55,22 @@ class CommentList extends Component {
 							return (
 								<li
 									key={comment.id}
+									className="w3-bar flex_column"
 									style={{
-										display: 'flex',
-										flexDirection: 'column',
 										justifyContent: 'space-between'
-									}}
-									className="w3-bar">
-									<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-										<div className="w3-bar-item" style={{ display: 'flex', flexDirection: 'row' }}>
-											<div style={{ padding: '10px', display: 'flex', flexDirection: 'column' }}>
+									}}>
+									<div className="flex_row" style={{ justifyContent: 'space-between' }}>
+										<div className="w3-bar-item flex_row">
+											<div className="flex_column" style={{ padding: '10px' }}>
 												<div><strong>Author: </strong>{comment.author}</div>
 												<div><strong>Posted At: </strong>{formatDate(comment.timestamp)}</div>
 											</div>
 										</div>
 										<div className="w3-bar-item">
-											<div style={{ display: 'flex', flexDirection: 'row' }}>
+											<div className="flex_row">
 												<div
+													className="flex_column"
 													style={{
-														display: 'flex',
-														flexDirection: 'column',
 														justifyContent: 'center',
 														marginRight: '20px'
 													}}>

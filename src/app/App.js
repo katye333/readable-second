@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Home from './Home';
-import CategoryList from './CategoryList';
-import PostList from './PostList';
-import AddPost from './AddPost';
-import Post from './Post';
-import UpdatePost from './UpdatePost';
-import AddComment from './AddComment';
-import UpdateComment from './UpdateComment';
+import CategoryList from '../categories/CategoryList';
+import PostList from '../posts/PostList';
+import AddPost from '../posts/AddPost';
+import Post from '../posts/Post';
+import UpdatePost from '../posts/UpdatePost';
+import AddComment from '../comments/AddComment';
+import UpdateComment from '../comments/UpdateComment';
 
 class App extends Component {
     render() {

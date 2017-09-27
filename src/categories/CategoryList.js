@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchCategories } from '../actions';
+import { fetchCategories } from './CategoryActions';
 
 class CategoryList extends Component {
     componentDidMount() {
@@ -11,13 +11,7 @@ class CategoryList extends Component {
     render() {
         const categories = this.props.categories;
         return (
-            <div
-            	className="w3-card-4 w3-content"
-            	style={{
-            		marginLeft: '200px',
-            		marginRight: '20px',
-            		marginTop: '20px'
-            	}}>
+            <div className="w3-card-4 w3-content category_list_container">
 	            <div className="w3-container w3-blue">
 	            	<h1 className="w3-xxxlarge">Category List</h1>
 	           	</div>

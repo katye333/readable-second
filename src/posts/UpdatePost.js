@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCategories, fetchPostById, editPost } from '../actions';
+import { fetchCategories } from '../categories/CategoryActions'
+import { fetchPostById, editPost } from '../posts/PostActions';
 
 class UpdatePost extends Component {
     constructor(props) {
@@ -64,14 +65,14 @@ class UpdatePost extends Component {
     }
     render() {
         return (
-			<div className="w3-content" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
+			<div className="w3-content" className="post_form_container">
             	<div className="w3-container w3-blue">
             		<h2 className="w3-center">Edit Post</h2>
             	</div>
 
 				<form onSubmit={this.handleEdit} className="w3-container w3-card-4">
 					<div className="w3-row w3-section">
-						<label htmlFor="post_category" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Category:</label>
+						<label htmlFor="post_category" className="w3-col post_inputs">Category:</label>
 						<div className="w3-rest">
 							<select
 								id="post_category"
@@ -90,7 +91,7 @@ class UpdatePost extends Component {
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_title" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Title:</label>
+						<label htmlFor="post_title" className="w3-col post_inputs">Title:</label>
 						<div className="w3-rest">
 							<input
 								className="w3-input"
@@ -102,7 +103,7 @@ class UpdatePost extends Component {
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_author" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Author:</label>
+						<label htmlFor="post_author" className="w3-col post_inputs">Author:</label>
 						<div className="w3-rest">
 							<input
 								type="text"
@@ -114,7 +115,7 @@ class UpdatePost extends Component {
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_body" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Body:</label>
+						<label htmlFor="post_body" className="w3-col post_inputs">Body:</label>
 						<div className="w3-rest">
 							<textarea
 								rows="6"

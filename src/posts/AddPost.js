@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import serialize from 'form-serialize';
 import cuid from 'cuid';
-import { fetchCategories, addPost } from '../actions';
+import { fetchCategories } from '../categories/CategoryActions'
+import { addPost } from '../posts/PostActions';
 
 class AddPost extends Component {
     state = {
@@ -41,14 +42,14 @@ class AddPost extends Component {
     }
     render() {
         return (
-            <div className="w3-content" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
+            <div className="w3-content" className="post_form_container">
             	<div className="w3-container w3-blue">
             		<h2 className="w3-center">New Post</h2>
             	</div>
 
 				<form onSubmit={this.handleSubmit} className="w3-container w3-card-4">
 					<div className="w3-row w3-section">
-						<label htmlFor="post_category" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Category:</label>
+						<label htmlFor="post_category" className="w3-col post_inputs" style={{ width: '15%', fontWeight: '900' }}>Category:</label>
 						<div className="w3-rest">
 							<select className="w3-select" id="post_category" name="category">
 								<option></option>
@@ -62,19 +63,19 @@ class AddPost extends Component {
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_title" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Title:</label>
+						<label htmlFor="post_title" className="w3-col post_inputs">Title:</label>
 						<div className="w3-rest">
 							<input className="w3-input" type="text" id="post_title" name="title" />
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_author" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Author:</label>
+						<label htmlFor="post_author" className="w3-col post_inputs">Author:</label>
 						<div className="w3-rest">
 							<input type="text" className="w3-input" id="post_author" name="author" />
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_body" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Body:</label>
+						<label htmlFor="post_body" className="w3-col post_inputs">Body:</label>
 						<div className="w3-rest">
 							<textarea rows="6" className="w3-input" id="post_body" name="body"></textarea>
 						</div>

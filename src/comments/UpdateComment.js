@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchCommentById, editComment } from '../actions';
+import { fetchCommentById, editComment } from './CommentActions';
 
 class UpdateComment extends Component {
     constructor(props) {
@@ -60,14 +60,14 @@ class UpdateComment extends Component {
     }
     render() {
         return (
-            <div className="w3-content" style={{ marginLeft: '200px', marginTop: '20px', width: '50%' }}>
+            <div className="w3-content" className="comment_form_container">
 				<form onSubmit={this.handleEdit}>
 					<div className="w3-container w3-blue">
             			<h2 className="w3-center">Edit Comment</h2>
             		</div>
 
 					<div className="w3-row w3-section">
-						<label htmlFor="comment_author" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Author:</label>
+						<label htmlFor="comment_author" className="w3-col comment_inputs">Author:</label>
 						<div className="w3-rest">
 							<input
 								type="text"
@@ -79,7 +79,7 @@ class UpdateComment extends Component {
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="comment_body" className="w3-col" style={{ width: '15%', fontWeight: '900' }}>Body:</label>
+						<label htmlFor="comment_body" className="w3-col comment_inputs">Body:</label>
 						<div className="w3-rest">
 							<textarea
 								rows="6"
