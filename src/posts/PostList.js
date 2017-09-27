@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as actions from '../posts/PostActions';
-import { formatDate } from '../utils/helpers';
 
 class PostList extends Component {
     state = {

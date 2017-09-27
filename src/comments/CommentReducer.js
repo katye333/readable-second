@@ -46,6 +46,20 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
                 comments: action.comments
             });
 
+        case COMMENT_VOTE_REQUEST:
+            return Object.assign({}, state, {
+                fetchingComments: true,
+                postId: action.postId,
+                comments: action.comments
+            });
+
+        case COMMENT_VOTE_RECEIVE:
+            return Object.assign({}, state, {
+                fetchingComments: false,
+                postId: action.postId,
+                comments: action.comments
+            });
+
         case COMMENT_ADD_REQUEST:
             return Object.assign({}, state, {
                 fetchingComments: true,

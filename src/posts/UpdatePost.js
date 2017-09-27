@@ -18,31 +18,26 @@ class UpdatePost extends Component {
             categoryList: []
         };
     }
-
+    componentWillMount() {
+    	this.props.fetchCategories()
+    }
     componentDidMount() {
         let p1 = new Promise((res, rej) => {
-            res(this.props.fetchCategories());
-        });
-        let p2 = new Promise((res, rej) => {
             res(this.props.fetchPostById(this.props.match.params.id));
         });
 
-        Promise.all([p1, p2]).then(values => {
+        Promise.all([p1]).then(values => {
             values.forEach(obj => {
-                if (obj.type === 'CATEGORY_RECEIVE')
-                    this.setState({ categoryList: obj });
-                else {
-                    this.setState({
-                        id: obj.posts.id,
-                        timestamp: obj.posts.timestamp,
-                        category: obj.posts.category,
-                        title: obj.posts.title,
-                        author: obj.posts.author,
-                        body: obj.posts.body,
-                        voteScore: obj.posts.voteScore,
-                        deleted: obj.posts.deleted
-                    });
-                }
+                this.setState({
+                    id: obj.posts.id,
+                    timestamp: obj.posts.timestamp,
+                    category: obj.posts.category,
+                    title: obj.posts.title,
+                    author: obj.posts.author,
+                    body: obj.posts.body,
+                    voteScore: obj.posts.voteScore,
+                    deleted: obj.posts.deleted
+                });
             });
         });
     }
