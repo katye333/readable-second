@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
     POST_REQUEST,
     POST_RECEIVE,
@@ -17,9 +18,6 @@ import {
     POST_SORT_TIME
 } from '../app/types';
 
-/* ----------------------------------------- */
-/* ************ ACTION CREATORS ************ */
-/* ----------------------------------------- */
 const url = 'http://localhost:5001';
 
 // Generate a unique token for storing your bookshelf data on the backend server.
@@ -53,12 +51,9 @@ export function fetchPosts() {
     return dispatch => {
         dispatch(requestPosts())
 
-        return setTimeout(function() {
-            fetch(`${url}/posts`, { method: 'GET', headers })
-                .then(response => response.json())
-                .then(json => dispatch(receivePosts(json)))
-                .then(data => dispatch(sortByVotePosts(data.posts)))
-        }, 1000)
+        return axios.get(`${url}/posts`, { headers })
+                .then(response => dispatch(receivePosts(response.data)))
+                .then(json => dispatch(sortByVotePosts(json.posts)))
     }
 }
 
@@ -80,9 +75,8 @@ export function fetchPostsByCategory(category) {
     return dispatch => {
         dispatch(requestPostsByCategory())
 
-        return fetch(`${url}/${category}/posts`, { method: 'GET', headers })
-            .then(response => response.json())
-            .then(json => dispatch(receivePostsByCategory(json)))
+        return axios.get(`${url}/${category}/posts`, { headers })
+            .then(response => dispatch(receivePostsByCategory(response.data)))
     }
 }
 
@@ -104,9 +98,8 @@ function receivePostsById(json) {
 export function fetchPostById(postId) {
     return dispatch => {
         dispatch(requestPostsById())
-        return fetch(`${url}/posts/${postId}`, { method: 'GET', headers })
-            .then(response => response.json())
-            .then(json => dispatch(receivePostsById(json)))
+        return axios.get(`${url}/posts/${postId}`, { headers })
+            .then(response => dispatch(receivePostsById(response.data)))
     }
 }
 
@@ -226,7 +219,7 @@ function receiveDeletePost(post) {
 
 export function deletePost(postId) {
     return dispatch => {
-
+    	dispatch(requestDeletePost())
         return fetch(`${url}/posts/${postId}`, {
                 method: 'DELETE',
                 headers: {

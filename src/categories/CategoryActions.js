@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
 	CATEGORY_REQUEST,
     CATEGORY_RECEIVE,
@@ -36,8 +37,7 @@ export function fetchCategories() {
     return dispatch => {
         dispatch(requestCategories())
 
-        return fetch(`${url}/categories`, { method: 'GET', headers })
-            .then(response => response.json())
-            .then(json => dispatch(receiveCategories(json)))
+        return axios.get(`${url}/categories`, { headers })
+            .then(response => dispatch(receiveCategories(response.data)))
     }
 }
