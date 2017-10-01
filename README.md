@@ -124,8 +124,8 @@ You can find more information on how to perform common tasks [here](https://gith
 ### Installation
 ---
 Readable requires
-** NPM v5+ (https://www.npmjs.com/)
-** Readable API server (https://github.com/udacity/reactnd-project-readable-starter.git)
+* NPM v5+ (https://www.npmjs.com/)
+* Readable API server (https://github.com/udacity/reactnd-project-readable-starter.git)
 
 Install and start the API server
 ```sh
