@@ -7,6 +7,9 @@ class UpdatePost extends Component {
     constructor(props) {
         super(props)
         this.state = {
+        	isError: false,
+    		inputContainerClasses: 'w3-rest',
+    		labelClasses: 'w3-col post_inputs',
             id: "",
             timestamp: "",
             category: "",
@@ -14,8 +17,7 @@ class UpdatePost extends Component {
             author: "",
             body: "",
             voteScore: "",
-            deleted: false,
-            categoryList: []
+            deleted: false
         };
     }
     componentWillMount() {
@@ -42,6 +44,17 @@ class UpdatePost extends Component {
         });
     }
 
+    handleValidation = (event) => {
+    	this.state.title === ''
+    		? this.setState({ isError: true, labelClasses: 'w3-col post_inputs label_error', inputContainerClasses: 'w3-rest input_error' })
+    		: this.setState({ isError: false, labelClasses: 'w3-col post_inputs', inputContainerClasses: 'w3-rest' })
+    	this.state.body === ''
+    		? this.setState({ isError: true, labelClasses: 'w3-col post_inputs label_error', inputContainerClasses: 'w3-rest input_error' })
+    		: this.setState({ isError: false, labelClasses: 'w3-col post_inputs', inputContainerClasses: 'w3-rest' })
+
+    	return this.state.isError;
+    }
+
     handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -55,8 +68,14 @@ class UpdatePost extends Component {
         event.preventDefault();
         const { history } = this.props;
 
-        this.props.editPost(this.state);
-        history.push('/posts');
+        if (this.handleValidation(event) === true)
+        {
+			this.props.editPost(this.state);
+        	history.push('/posts');
+        }
+        else {
+        	alert('Please fill in all required fields')
+        }
     }
     render() {
         return (
@@ -67,14 +86,14 @@ class UpdatePost extends Component {
 
 				<form onSubmit={this.handleEdit} className="w3-container w3-card-4">
 					<div className="w3-row w3-section">
-						<label htmlFor="post_category" className="w3-col post_inputs">Category:</label>
+						<label htmlFor="post_category" className="w3-col post_inputs" style={{ color: '#727272' }}>Category:</label>
 						<div className="w3-rest">
 							<select
 								id="post_category"
 								className="w3-select"
 								name="category"
 								value={this.state.category}
-								onChange={this.handleChange}>
+								disabled="disabled">
 								<option></option>
 
 								{this.props.categories.map((category) => {
@@ -86,8 +105,20 @@ class UpdatePost extends Component {
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_title" className="w3-col post_inputs">Title:</label>
+						<label htmlFor="post_author" className="w3-col post_inputs" style={{ color: '#727272' }}>Author:</label>
 						<div className="w3-rest">
+							<input
+								type="text"
+								className="w3-input"
+								id="post_author"
+								name="author"
+								value={this.state.author}
+								disabled="disabled" />
+						</div>
+					</div>
+					<div className="w3-row w3-section">
+						<label htmlFor="post_title" className={this.state.labelClasses}>Title:</label>
+						<div className={this.state.inputContainerClasses}>
 							<input
 								className="w3-input"
 								type="text"
@@ -97,21 +128,10 @@ class UpdatePost extends Component {
 								onChange={this.handleChange} />
 						</div>
 					</div>
+
 					<div className="w3-row w3-section">
-						<label htmlFor="post_author" className="w3-col post_inputs">Author:</label>
-						<div className="w3-rest">
-							<input
-								type="text"
-								className="w3-input"
-								id="post_author"
-								name="author"
-								value={this.state.author}
-								onChange={this.handleChange} />
-						</div>
-					</div>
-					<div className="w3-row w3-section">
-						<label htmlFor="post_body" className="w3-col post_inputs">Body:</label>
-						<div className="w3-rest">
+						<label htmlFor="post_body" className={this.state.labelClasses}>Body:</label>
+						<div className={this.state.inputContainerClasses}>
 							<textarea
 								rows="6"
 								className="w3-input"

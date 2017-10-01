@@ -1,3 +1,17 @@
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+div.w3-container {
+	flex: 1 0 auto;
+}
+
 .sort_list {
 	cursor: pointer;
 }
@@ -25,6 +39,14 @@
 .post_inputs {
 	width: 15%;
 	font-weight: 900;
+}
+
+.label_error {
+	color: #b20000;
+}
+
+.input_error {
+	outline: 1px solid #b20000;
 }
 
 .comment_list_container {
