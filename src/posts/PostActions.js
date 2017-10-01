@@ -25,12 +25,22 @@ let token = localStorage.token;
 if (!token)
     token = localStorage.token = Math.random().toString(36).substr(-8);
 
-// Headers for Ajax request
-const headers = {
-    'Accept': 'application/json',
-    'Authorization': token
-};
+// Headers for GET Ajax request
+const getHeaders = {
+	headers: {
+		'Accept': 'application/json',
+    	'Authorization': token
+	}
+}
 
+// Headers for POST/PUT/DELETE Ajax request
+const postHeaders = {
+	headers: {
+		'Accept': 'application/json',
+        'Authorization': token,
+        'Content-Type': 'application/json'
+	}
+}
 
 // Post Actions
 function requestPosts() {
@@ -51,7 +61,7 @@ export function fetchPosts() {
     return dispatch => {
         dispatch(requestPosts())
 
-        return axios.get(`${url}/posts`, { headers })
+        return axios.get(`${url}/posts`, getHeaders)
                 .then(response => dispatch(receivePosts(response.data)))
                 .then(json => dispatch(sortByVotePosts(json.posts)))
     }
@@ -75,7 +85,7 @@ export function fetchPostsByCategory(category) {
     return dispatch => {
         dispatch(requestPostsByCategory())
 
-        return axios.get(`${url}/${category}/posts`, { headers })
+        return axios.get(`${url}/${category}/posts`, getHeaders)
             .then(response => dispatch(receivePostsByCategory(response.data)))
     }
 }
@@ -98,7 +108,7 @@ function receivePostsById(json) {
 export function fetchPostById(postId) {
     return dispatch => {
         dispatch(requestPostsById())
-        return axios.get(`${url}/posts/${postId}`, { headers })
+        return axios.get(`${url}/posts/${postId}`, getHeaders)
             .then(response => dispatch(receivePostsById(response.data)))
     }
 }
@@ -121,17 +131,8 @@ export function addPost(post) {
     return dispatch => {
         dispatch(requestAddPost())
 
-        return fetch(`${url}/posts`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(post)
-            })
-            .then(response => response.json())
-            .then(json => dispatch(receiveAddPost(json)))
+        return axios.post(`${url}/posts`, JSON.stringify(post), postHeaders)
+            .then(response => dispatch(receiveAddPost(response.data)))
     }
 }
 
@@ -157,17 +158,8 @@ export function votePost(postId, option) {
     return dispatch => {
         dispatch(requestVotePost(postId, option))
 
-        return fetch(`${url}/posts/${postId}`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(option)
-            })
-            .then(response => response.json())
-            .then(json => dispatch(receiveVotePost(postId, option, json)))
+        return axios.post(`${url}/posts/${postId}`, JSON.stringify(option), postHeaders)
+           	.then(response => dispatch(receiveVotePost(postId, option, response.data)))
     }
 }
 
@@ -189,17 +181,8 @@ export function editPost(post) {
     return dispatch => {
         dispatch(requestEditPost())
 
-        return fetch(`${url}/posts/${post.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(post)
-            })
-            .then(response => response.json())
-            .then(json => dispatch(receiveEditPost(json)))
+        return axios.put(`${url}/posts/${post.id}`, JSON.stringify(post), postHeaders)
+           	.then(response => dispatch(receiveEditPost(response.data)))
     }
 }
 
@@ -220,16 +203,9 @@ function receiveDeletePost(post) {
 export function deletePost(postId) {
     return dispatch => {
     	dispatch(requestDeletePost())
-        return fetch(`${url}/posts/${postId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                },
-            })
-            .then(res => res.text())
-            .then(json => dispatch(receiveDeletePost(json)))
+
+        return axios.delete(`${url}/posts/${postId}`, postHeaders)
+           	.then(response => dispatch(receiveDeletePost(response.data)))
     }
 }
 

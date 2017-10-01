@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import {
     COMMENT_REQUEST,
     COMMENT_RECEIVE,
@@ -23,11 +23,22 @@ let token = localStorage.token;
 if (!token)
     token = localStorage.token = Math.random().toString(36).substr(-8);
 
-// Headers for Ajax request
-const headers = {
-    'Accept': 'application/json',
-    'Authorization': token
-};
+// Headers for GET Ajax request
+const getHeaders = {
+	headers: {
+		'Accept': 'application/json',
+    	'Authorization': token
+	}
+}
+
+// Headers for POST/PUT/DELETE Ajax request
+const postHeaders = {
+	headers: {
+		'Accept': 'application/json',
+        'Authorization': token,
+        'Content-Type': 'application/json'
+	}
+}
 
 function requestComments() {
     return {
@@ -47,12 +58,9 @@ export function fetchComments(postId) {
     return dispatch => {
         dispatch(requestComments())
 
-        return setTimeout(function() {
-            fetch(`${url}/posts/${postId}/comments`, { method: 'GET', headers })
-                .then(response => response.json())
-                .then(json => dispatch(receiveComments(json)))
-                .then(data => dispatch(sortByVoteComments(data.posts)))
-        }, 1000)
+        return axios.get(`${url}/posts/${postId}/comments`, getHeaders)
+                .then(response => dispatch(receiveComments(response.data)))
+                .then(json => dispatch(sortByVoteComments(json.posts)))
     }
 }
 
@@ -63,28 +71,19 @@ function requestAddComment() {
     };
 }
 
-function receiveAddComment(post) {
+function receiveAddComment(comment) {
     return {
         type: COMMENT_ADD_RECEIVE,
-        comments: post
+        comments: comment
     }
 }
 
-export function addComment(post) {
+export function addComment(comment) {
     return dispatch => {
         dispatch(requestAddComment())
 
-        return fetch(`${url}/comments`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(post)
-            })
-            .then(response => response.json())
-            .then(json => dispatch(receiveAddComment(json)))
+        return axios.post(`${url}/comments`, JSON.stringify(comment), postHeaders)
+            .then(response => dispatch(receiveAddComment(response.data)))
     }
 }
 
@@ -107,9 +106,9 @@ function receiveCommentById(json) {
 export function fetchCommentById(commentId) {
     return dispatch => {
         dispatch(requestCommentById())
-        return fetch(`${url}/comments/${commentId}`, { method: 'GET', headers })
-            .then(response => response.json())
-            .then(json => dispatch(receiveCommentById(json)))
+
+        return axios.get(`${url}/comments/${commentId}`, getHeaders)
+            .then(response => dispatch(receiveCommentById(response.data)))
     }
 }
 
@@ -129,19 +128,10 @@ function receiveEditComment(json) {
 
 export function editComment(comment) {
     return dispatch => {
-        dispatch(requestEditComment())
+        dispatch(requestEditComment());
 
-        return fetch(`${url}/comments/${comment.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(comment)
-            })
-            .then(response => response.json())
-            .then(json => dispatch(receiveEditComment(json)))
+        return axios.put(`${url}/comments/${comment.id}`, JSON.stringify(comment), postHeaders)
+           	.then(response => dispatch(receiveEditComment(response.data)))
     }
 }
 
@@ -162,16 +152,9 @@ function receiveDeleteComment(json) {
 export function deleteComment(commentId) {
     return dispatch => {
         dispatch(requestDeleteComment())
-        return fetch(`${url}/comments/${commentId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                },
-            })
-            .then(res => res.text())
-            .then(json => dispatch(receiveDeleteComment(json)))
+
+        return axios.delete(`${url}/comments/${commentId}`, postHeaders)
+           	.then(response => dispatch(receiveDeleteComment(response.data)))
     }
 }
 
