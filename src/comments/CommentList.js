@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as actions from './CommentActions';
+import ReactLoading from 'react-loading';
 import { formatDate } from '../utils/helpers';
 
 class CommentList extends Component {
@@ -39,24 +40,31 @@ class CommentList extends Component {
     }
 
     render() {
-        const comments = this.props.comments;
+        const comments = this.props.comments.comments;
+
+        let loadingGif;
+        this.props.comments.fetchingComments === true
+        	? loadingGif = 	<ReactLoading type='spin' color='black' height='334' width='175' />
+        	: loadingGif =	(
+				            	<div className="w3-bar" style={{ marginBottom: '10px' }}>
+            	            		<div className="w3-dropdown-hover w3-right">
+            		            		<button className="w3-bar-item w3-button w3-black w3-padding-large" style={{ fontSize: '18px' }}>
+            		            			<span className="fa fa-sort"></span>
+            		            		</button>
+            		            		<div className="w3-dropdown-content w3-bar-block w3-border" style={{ marginTop: '2.2%' }}>
+            		            			<a id="vote" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</a>
+            		            			<a id="time" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</a>
+            		            		</div>
+            			            </div>
+            			            <Link to={'/'+ this.props.postId + '/newComment'} className="w3-bar-item w3-button w3-green w3-padding-large w3-right" style={{ fontSize: '18px' }}>
+            		            		<span className="fa fa-plus"></span>
+            		            		&nbsp; New Comment
+            		            	</Link>
+            		            </div>
+        					)
         return (
             <div className="w3-container comment_list_container">
-				<div className="w3-bar" style={{ marginBottom: '10px' }}>
-            		<div className="w3-dropdown-hover w3-right">
-	            		<button className="w3-bar-item w3-button w3-black w3-padding-large" style={{ fontSize: '18px' }}>
-	            			<span className="fa fa-sort"></span>
-	            		</button>
-	            		<div className="w3-dropdown-content w3-bar-block w3-border" style={{ marginTop: '2.2%' }}>
-	            			<a id="vote" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</a>
-	            			<a id="time" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</a>
-	            		</div>
-		            </div>
-		            <Link to={'/'+ this.props.postId + '/newComment'} className="w3-bar-item w3-button w3-green w3-padding-large w3-right" style={{ fontSize: '18px' }}>
-	            		<span className="fa fa-plus"></span>
-	            		&nbsp; New Comment
-	            	</Link>
-	            </div>
+				{loadingGif}
 
 	            <ul className="w3-ul">
 					{comments.length > 0 &&
@@ -122,7 +130,7 @@ class CommentList extends Component {
 // Add State to the props of the MainPage component
 function mapStateToProps({ comments }) {
     return {
-        comments: comments.comments
+        comments: comments
     }
 }
 
