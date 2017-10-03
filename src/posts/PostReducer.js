@@ -27,9 +27,9 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
             });
 
         case POST_RECEIVE:
-            return Object.assign({}, state, {
+        	return Object.assign({}, state, {
                 fetchingPosts: false,
-                posts: action.posts
+                posts: _.filter(action.posts, ['deleted', false])
             });
 
         case POST_BY_ID_REQUEST:

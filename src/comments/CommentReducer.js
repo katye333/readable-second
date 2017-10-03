@@ -29,7 +29,7 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
             return Object.assign({}, state, {
                 fetchingComments: false,
                 postId: action.postId,
-                comments: action.comments
+                comments: _.filter(action.comments, ['deleted', false])
             });
 
         case COMMENT_BY_ID_REQUEST:
