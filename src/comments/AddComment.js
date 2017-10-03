@@ -5,23 +5,47 @@ import cuid from 'cuid';
 import { addComment } from './CommentActions';
 
 class AddComment extends Component {
+	state = {
+    	isError: false,
+    	inputContainerClasses: 'w3-rest',
+    	labelClasses: 'w3-col comment_inputs',
+    	author: '',
+    	body: ''
+    };
+    handleValidation = (event) => {
+    	this.state.author === ''
+    		? this.setState({ isError: true, labelClasses: 'w3-col comment_inputs label_error', inputContainerClasses: 'w3-rest input_error' })
+    		: this.setState({ isError: false, labelClasses: 'w3-col comment_inputs', inputContainerClasses: 'w3-rest' })
+    	this.state.body === ''
+    		? this.setState({ isError: true, labelClasses: 'w3-col comment_inputs label_error', inputContainerClasses: 'w3-rest input_error' })
+    		: this.setState({ isError: false, labelClasses: 'w3-col comment_inputs', inputContainerClasses: 'w3-rest' })
+
+    	return this.state.isError;
+    }
     handleSubmit = (event) => {
         event.preventDefault();
         const { history } = this.props;
-        const formValues = serialize(event.target, { hash: true });
-        const datetime = Date.now();
 
-        const newPost = Object.assign({
-            id: cuid(),
-            parentId: this.props.match.params.id,
-            timestamp: datetime,
-            voteScore: 1,
-            deleted: false,
-            parentDeleted: false,
-        }, formValues);
+        if (this.handleValidation(event) === true)
+        {
+			const formValues = serialize(event.target, { hash: true });
+	        const datetime = Date.now();
 
-        this.props.addComment(newPost);
-        history.push('/posts/' + this.props.match.params.id);
+	        const newPost = Object.assign({
+	            id: cuid(),
+	            parentId: this.props.match.params.id,
+	            timestamp: datetime,
+	            voteScore: 1,
+	            deleted: false,
+	            parentDeleted: false,
+	        }, formValues);
+
+	        this.props.addComment(newPost);
+	        history.push('/posts/' + this.props.match.params.id);
+        }
+        else {
+        	alert('Please fill in all required fields')
+        }
     }
     render() {
         return (
@@ -31,15 +55,15 @@ class AddComment extends Component {
 						<h2 className="w3-center">New Comment</h2>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="post_author" className="w3-col comment_inputs">Author:</label>
-						<div className="w3-rest">
+						<label htmlFor="post_author" className={this.state.labelClasses}>Author:</label>
+						<div className={this.state.inputContainerClasses}>
 							<input type="text" className="w3-input" id="post_author" name="author" />
 						</div>
 					</div>
 
 					<div className="w3-row w3-section">
-						<label htmlFor="post_body" className="w3-col comment_inputs">Body:</label>
-						<div className="w3-rest">
+						<label htmlFor="post_body" className={this.state.labelClasses}>Body:</label>
+						<div className={this.state.inputContainerClasses}>
 							<textarea rows="6" className="w3-input" id="post_body" name="body"></textarea>
 						</div>
 					</div>

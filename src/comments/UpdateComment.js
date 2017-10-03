@@ -6,12 +6,15 @@ class UpdateComment extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            id: "",
-            parentId: "",
-            timestamp: "",
-            author: "",
-            body: "",
-            voteScore: "",
+        	isError: false,
+    		inputContainerClasses: 'w3-rest',
+    		labelClasses: 'w3-col post_inputs',
+            id: '',
+            parentId: '',
+            timestamp: '',
+            author: '',
+            body: '',
+            voteScore: '',
             deleted: false,
             parentDeleted: false
         };
@@ -42,6 +45,17 @@ class UpdateComment extends Component {
         });
     }
 
+    handleValidation = (event) => {
+    	this.state.author === ''
+    		? this.setState({ isError: true, labelClasses: 'w3-col comment_inputs label_error', inputContainerClasses: 'w3-rest input_error' })
+    		: this.setState({ isError: false, labelClasses: 'w3-col comment_inputs', inputContainerClasses: 'w3-rest' })
+    	this.state.body === ''
+    		? this.setState({ isError: true, labelClasses: 'w3-col comment_inputs label_error', inputContainerClasses: 'w3-rest input_error' })
+    		: this.setState({ isError: false, labelClasses: 'w3-col comment_inputs', inputContainerClasses: 'w3-rest' })
+
+    	return this.state.isError;
+    }
+
     handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
@@ -55,8 +69,14 @@ class UpdateComment extends Component {
         event.preventDefault();
         const { history } = this.props;
 
-        this.props.editComment(this.state);
-        history.push('/posts/' + this.state.parentId);
+        if (this.handleValidation(event) === true)
+        {
+			this.props.editComment(this.state);
+        	history.push('/posts/' + this.state.parentId);
+        }
+        else {
+        	alert('Please fill in all required fields')
+        }
     }
     render() {
         return (
@@ -67,8 +87,8 @@ class UpdateComment extends Component {
             		</div>
 
 					<div className="w3-row w3-section">
-						<label htmlFor="comment_author" className="w3-col comment_inputs">Author:</label>
-						<div className="w3-rest">
+						<label htmlFor="comment_author" className={this.state.labelClasses}>Author:</label>
+						<div className={this.state.inputContainerClasses}>
 							<input
 								type="text"
 								className="w3-input"
@@ -79,8 +99,8 @@ class UpdateComment extends Component {
 						</div>
 					</div>
 					<div className="w3-row w3-section">
-						<label htmlFor="comment_body" className="w3-col comment_inputs">Body:</label>
-						<div className="w3-rest">
+						<label htmlFor="comment_body" className={this.state.labelClasses}>Body:</label>
+						<div className={this.state.inputContainerClasses}>
 							<textarea
 								rows="6"
 								className="w3-input"
