@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash'
 import {
     COMMENT_REQUEST,
     COMMENT_RECEIVE,
@@ -13,7 +14,8 @@ import {
     COMMENT_DELETE_REQUEST,
     COMMENT_DELETE_RECEIVE,
     COMMENT_SORT_VOTE,
-    COMMENT_SORT_TIME
+    COMMENT_SORT_TIME,
+    COMMENT_COUNT
 } from '../app/types';
 
 const url = 'http://localhost:5001';
@@ -54,13 +56,28 @@ function receiveComments(json) {
     };
 }
 
-export function fetchComments(postId) {
+export function fetchComments(posts) {
     return dispatch => {
         dispatch(requestComments())
 
-        return axios.get(`${url}/posts/${postId}/comments`, getHeaders)
-                .then(response => dispatch(receiveComments(response.data)))
-                .then(json => dispatch(sortByVoteComments(json.posts)))
+        if (_.isObject(posts)) {
+        	if (posts.posts.length === 1) {
+        		return axios.get(`${url}/posts/${posts.posts.id}/comments`, getHeaders)
+        	        .then(response => dispatch(receiveComments(response.data)))
+        	        .then(json => dispatch(sortByVoteComments(json.comments)))
+        	}
+        	else if (posts.posts.length >= 1) {
+        		for (let i = 0; i < posts.posts.length; i++) {
+        			return axios.get(`${url}/posts/${posts.posts[i].id}/comments`, getHeaders)
+        	        	.then(response => dispatch(receiveComments(response.data)))
+        		}
+        	}
+        }
+        else {
+        	return axios.get(`${url}/posts/${posts}/comments`, getHeaders)
+        	        .then(response => dispatch(receiveComments(response.data)))
+        	        .then(json => dispatch(sortByVoteComments(json.comments)))
+        }
     }
 }
 
@@ -169,5 +186,32 @@ export function sortByTimeComments(comments) {
     return {
         type: COMMENT_SORT_TIME,
         comments: comments
+    }
+}
+
+function requestVoteComment(commentId, option) {
+    return {
+        type: COMMENT_VOTE_REQUEST,
+        commentId: commentId,
+        option: option,
+        comments: []
+    };
+}
+
+function receiveVoteComment(commentId, option, json) {
+    return {
+        type: COMMENT_VOTE_RECEIVE,
+        commentId: commentId,
+        option: option,
+        comments: json
+    }
+}
+
+export function voteComment(commentId, option) {
+    return dispatch => {
+        dispatch(requestVoteComment(commentId, option))
+
+        return axios.post(`${url}/comments/${commentId}`, JSON.stringify(option), postHeaders)
+           	.then(response => dispatch(receiveVoteComment(commentId, option, response.data)))
     }
 }

@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as actions from '../posts/PostActions';
+import { fetchPostById, deletePost, votePost, sortByTimePosts, sortByVotePosts } from '../posts/PostActions';
 import { formatDate } from '../utils/helpers';
+import { fetchComments } from '../comments/CommentActions';
 import CommentList from '../comments/CommentList';
+import _ from 'lodash';
 
 class Post extends Component {
     state = {
@@ -13,7 +16,7 @@ class Post extends Component {
     };
     componentDidMount() {
         const postId = this.props.match.params.id;
-        this.props.fetchPostById(postId);
+        this.props.fetchPostById(postId).then((result) => this.props.fetchComments(postId))
     }
 
     handleExpand() {
@@ -30,9 +33,18 @@ class Post extends Component {
         e.preventDefault();
         this.props.votePost(post.id, e.currentTarget.id);
     }
-
+    commentCount(comments, postId) {
+    	for (let comment in comments) {
+    		if (postId === comment)
+    			return comments[comment]
+    		else
+    			return 0
+    	}
+    }
     render() {
-        const post = this.props.post;
+        const post = this.props.posts.posts;
+        console.log(post.id)
+        let comments = _.countBy(this.props.comments, 'parentId')
         let commentContainer;
 
         if (this.state.showComments === true) {
@@ -86,6 +98,7 @@ class Post extends Component {
 										</Link>
 									</h1>
 									<strong>Author: </strong>{post.author}
+									<h6>Comments: {this.commentCount(comments, post.id)}</h6>
 								</div>
 							</div>
 						</div>
@@ -119,10 +132,11 @@ class Post extends Component {
 }
 
 // Add State to the props of the MainPage component
-function mapStateToProps({ posts }) {
+function mapStateToProps({ posts, comments }) {
     return {
-        post: posts.posts
+        posts: posts,
+        comments: comments.comments
     }
 }
 
-export default connect(mapStateToProps, actions)(Post);
+export default connect(mapStateToProps, { fetchPostById, deletePost, votePost, sortByTimePosts, sortByVotePosts, fetchComments })(Post);

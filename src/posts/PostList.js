@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as actions from '../posts/PostActions';
+import { fetchPosts, fetchPostsByCategory, votePost, sortByTimePosts, sortByVotePosts } from '../posts/PostActions';
+import { fetchComments } from '../comments/CommentActions';
+import ReactLoading from 'react-loading';
+import _ from 'lodash';
 
 class PostList extends Component {
     state = {
@@ -9,44 +12,61 @@ class PostList extends Component {
         timeLabel: "By Time"
     };
     componentDidMount() {
-        const category = this.props.match.params.path;
+    	const category = this.props.match.params.path;
         category // is available
-            ? this.props.fetchPostsByCategory(category)
-            : this.props.fetchPosts()
+            ? this.props.fetchPostsByCategory(category).then((result) => this.props.fetchComments(result))
+            : this.props.fetchPosts().then((result) => this.props.fetchComments(result))
     }
-
+    handleVote = (e, post) => {
+        e.preventDefault();
+        this.props.votePost(post.id, e.currentTarget.id);
+    }
     handleSort(e) {
         const newSort = e.target.id;
         newSort === 'vote'
-            ? this.props.sortByVotePosts(this.props.posts) && this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
-            : this.props.sortByTimePosts(this.props.posts) && this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
+            ? this.props.sortByVotePosts(this.props.posts.posts) && this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
+            : this.props.sortByTimePosts(this.props.posts.posts) && this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
+    }
+    commentCount(comments, postId) {
+    	for (let count in comments) {
+    		if (postId === count)
+    			return comments[count]
+    		else
+    			return 0
+    	}
     }
     render() {
-        const posts = this.props.posts;
+        const posts = this.props.posts.posts;
+        let comments = _.countBy(this.props.comments, 'parentId')
+
+        let loadingGif;
+        this.props.posts.fetchingPosts === true
+        	? loadingGif = 	<ReactLoading type='spin' color='black' height='334' width='175' />
+        	: loadingGif =	(
+				            	<div className="w3-bar" style={{ marginBottom: '10px' }}>
+					            	<Link to="/newPost" className="w3-bar-item w3-button w3-green w3-padding-large" style={{ fontSize: '18px' }}>
+					            		<span className="fa fa-plus"></span>
+					            		&nbsp; New Post
+					            	</Link>
+
+				            		<div className="w3-dropdown-hover w3-right">
+					            		<button className="w3-bar-item w3-button w3-black w3-padding-large" style={{ fontSize: '18px' }}>
+					            			<span className="fa fa-sort"></span>
+					            		</button>
+					            		<div className="w3-dropdown-content w3-bar-block w3-border" style={{ marginTop: '2.2%' }}>
+					            			<a id="vote" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</a>
+					            			<a id="time" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</a>
+					            		</div>
+						            </div>
+					            </div>
+        					)
+
         return (
             <div className="w3-container" style={{ marginLeft: '250px', marginTop: '20px', width: '50%', marginBottom: '100px' }}>
+            	{loadingGif}
 
-            	<div className="w3-bar" style={{ marginBottom: '10px' }}>
-	            	<Link to="/newPost" className="w3-bar-item w3-button w3-green w3-padding-large" style={{ fontSize: '18px' }}>
-	            		<span className="fa fa-plus"></span>
-	            		&nbsp; New Post
-	            	</Link>
-
-            		<div className="w3-dropdown-hover w3-right">
-	            		<button className="w3-bar-item w3-button w3-black w3-padding-large" style={{ fontSize: '18px' }}>
-	            			<span className="fa fa-sort"></span>
-	            		</button>
-	            		<div className="w3-dropdown-content w3-bar-block w3-border" style={{ marginTop: '2.2%' }}>
-	            			<a id="vote" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.voteLabel}</a>
-	            			<a id="time" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</a>
-	            		</div>
-		            </div>
-	            </div>
 				{posts.length > 0 &&
-					posts.filter((obj) => {
-						if (obj.deleted === false)
-							return obj;
-					}).map((post) => {
+					posts.map((post) => {
 					return (
 						<div key={post.id} className="w3-card-4" style={{ marginBottom: '20px' }}>
 							<div className="w3-container w3-blue" key={post.id}>
@@ -57,21 +77,25 @@ class PostList extends Component {
 											justifyContent: 'center',
 											marginRight: '20px'
 										}}>
-										<span
-											className="fa fa-angle-up"
-											style={{
-												color: '#1fc51f',
-												fontSize: '36px'
-											}}>
-										</span>
-										<span style={{ fontSize: '18px', marginLeft: '5px' }}>{post.voteScore}</span>
-										<span
-											className="fa fa-angle-down"
-											style={{
-												color: 'red',
-												fontSize: '36px'
-											}}>
-										</span>
+										<button type="button" id="upVote" className="w3-button w3-circle" onClick={(e) => this.handleVote(e, post)}>
+											<span
+												className="fa fa-angle-up"
+												style={{
+													color: '#1fc51f',
+													fontSize: '36px'
+												}}>
+											</span>
+										</button>
+										<span style={{ fontSize: '18px', marginLeft: '20px' }}>{post.voteScore}</span>
+										<button type="button" id="downVote" className="w3-button w3-circle" onClick={(e) => this.handleVote(e, post)}>
+											<span
+												className="fa fa-angle-down"
+												style={{
+													color: 'red',
+													fontSize: '36px'
+												}}>
+											</span>
+										</button>
 									</div>
 									<div style={{ paddingBottom: '10px' }} className="flex_column">
 										<div style={{ flexDirection: 'row' }}>
@@ -82,6 +106,7 @@ class PostList extends Component {
 												</Link>
 											</h1>
 											<strong>Author: </strong>{post.author}
+											<h6>Comments: {this.commentCount(comments, post.id)}</h6>
 										</div>
 									</div>
 								</div>
@@ -101,11 +126,12 @@ class PostList extends Component {
 }
 
 // Add State to the props of the MainPage component
-function mapStateToProps({ categories, posts }) {
+function mapStateToProps({ categories, posts, comments }) {
     return {
         categories: categories.categories,
-        posts: posts.posts
+        posts: posts,
+        comments: comments.comments
     }
 }
 
-export default connect(mapStateToProps, actions)(PostList);
+export default connect(mapStateToProps, { fetchPosts, fetchPostsByCategory, votePost, sortByTimePosts, sortByVotePosts, fetchComments })(PostList);

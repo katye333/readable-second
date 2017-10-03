@@ -8,10 +8,21 @@ class CommentList extends Component {
     state = {
         sort: 'vote',
         voteLabel: "✔ By Vote Score",
-        timeLabel: "By Time"
+        timeLabel: "By Time",
+        didFireDeleteEvent: false
     };
     componentDidMount() {
         this.props.fetchComments(this.props.postId);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+    	return this.state.didFireDeleteEvent === true
+    		? true
+    		: false
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+    	nextProps.fetchComments(nextProps.postId);
     }
 
     handleSort(e) {
@@ -23,7 +34,8 @@ class CommentList extends Component {
     handleDelete(comment) {
         const { history } = this.props;
         this.props.deleteComment(comment.id);
-        history.push('/posts/' + this.props.postId);
+
+        this.setState({ didFireDeleteEvent: true });
     }
 
     render() {
@@ -48,10 +60,7 @@ class CommentList extends Component {
 
 	            <ul className="w3-ul">
 					{comments.length > 0 &&
-						comments.filter((obj) => {
-							if (obj.deleted === false && obj.parentDeleted === false)
-								return obj;
-						}).map((comment) => {
+						comments.map((comment) => {
 							return (
 								<li
 									key={comment.id}
