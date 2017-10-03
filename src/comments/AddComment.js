@@ -49,7 +49,7 @@ class AddComment extends Component {
     }
     render() {
         return (
-            <div className="w3-content comment_form_container">
+            <div className="w3-content comment_form_container post_container">
 				<form onSubmit={this.handleSubmit}>
 					<div className="w3-container w3-blue">
 						<h2 className="w3-center">New Comment</h2>

@@ -65,7 +65,7 @@ class Post extends Component {
         }
 
         return (
-            <div className="w3-container post_form_container">
+            <div className="w3-container post_form_container post_container">
             	{this.state.hasError === true
             		? 	<ErrorPage />
             		: 	(

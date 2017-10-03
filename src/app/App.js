@@ -8,6 +8,7 @@ import Post from '../posts/Post';
 import UpdatePost from '../posts/UpdatePost';
 import AddComment from '../comments/AddComment';
 import UpdateComment from '../comments/UpdateComment';
+import Footer from './Footer';
 
 class App extends Component {
     render() {
@@ -26,6 +27,8 @@ class App extends Component {
 				<Route path="/delete/:id" component={ PostList } />
 				<Route path="/:id/newComment" component={ AddComment } />
 				<Route path="/comments/edit/:commentId" component={ UpdateComment } />
+
+				<Footer />
 	    	</div>
         );
     }

@@ -63,7 +63,7 @@ class CommentList extends Component {
             		            </div>
         					)
         return (
-            <div className="w3-container comment_list_container">
+            <div className="w3-container comment_list_container post_container">
 				{loadingGif}
 
 	            <ul className="w3-ul">

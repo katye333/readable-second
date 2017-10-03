@@ -79,7 +79,7 @@ class UpdatePost extends Component {
     }
     render() {
         return (
-			<div className="w3-content" className="post_form_container">
+			<div className="w3-content" className="post_form_container post_container">
             	<div className="w3-container w3-blue">
             		<h2 className="w3-center">Edit Post</h2>
             	</div>
