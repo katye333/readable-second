@@ -58,4 +58,4 @@ function mapStateToProps({ categories, posts }) {
     }
 }
 
-export default connect(mapStateToProps, addComment)(AddComment);
+export default connect(mapStateToProps, { addComment })(AddComment);

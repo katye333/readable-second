@@ -116,7 +116,7 @@ class AddPost extends Component {
 }
 
 // Add State to the props of the MainPage component
-function mapStateToProps({ categories, posts }) {
+function mapStateToProps({ categories }) {
     return {
         categories: categories.categories
     }
