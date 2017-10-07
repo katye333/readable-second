@@ -24,8 +24,12 @@ class Post extends Component {
         		this.setState({ hasError: true })
         	})
         	.then((result) => this.props.fetchComments(postId))
+        	.then((posts) => {
+        		Object.keys(this.props.posts.posts).length === 0 && this.props.posts.posts.constructor === Object
+        			? this.setState({ hasError: true })
+        			: this.setState({ hasError: false })
+        	})
     }
-
     handleExpand() {
         this.state.showComments === false
             ? this.setState({ showComments: true, commentButtonLabel: 'Hide Comments' })
