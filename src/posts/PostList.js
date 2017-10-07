@@ -65,7 +65,7 @@ class PostList extends Component {
         					)
 
         return (
-            <div className="w3-container post_container" style={{ marginLeft: '250px', marginTop: '20px', width: '50%', marginBottom: '100px' }}>
+            <div className="w3-container post_container" style={{ marginLeft: '250px', marginTop: '20px', width: '50%' }}>
             	{loadingGif}
 
 				{posts.length > 0 &&

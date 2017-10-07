@@ -66,10 +66,20 @@ div.w3-container {
 
 .post_container
 {
-	min-height: calc(100vh - 70vh);
+	height: 80% !important;
+	margin-bottom: 25%;
 }
 
-footer
+.post_scroll_container
 {
-	height: 70px;
+	overflow-y: scroll;
+}
+.app_container
+{
+	margin: 0;
+	padding: 0.01em 16px;
+}
+.header_container
+{
+	height: 10% !important;
 }
