@@ -10,13 +10,13 @@ class UpdatePost extends Component {
         	isError: false,
     		inputContainerClasses: 'w3-rest',
     		labelClasses: 'w3-col post_inputs',
-            id: "",
-            timestamp: "",
-            category: "",
-            title: "",
-            author: "",
-            body: "",
-            voteScore: "",
+            id: '',
+            timestamp: '',
+            category: '',
+            title: '',
+            author: '',
+            body: '',
+            voteScore: '',
             deleted: false
         };
     }
@@ -56,6 +56,7 @@ class UpdatePost extends Component {
     }
 
     handleChange = (event) => {
+
         const name = event.target.name;
         const value = event.target.value;
 
@@ -66,9 +67,10 @@ class UpdatePost extends Component {
 
     handleEdit = (event) => {
         event.preventDefault();
+        console.log(this.state.category)
         const { history } = this.props;
 
-        if (this.handleValidation(event) === true)
+        if (this.handleValidation(event) === false)
         {
 			this.props.editPost(this.state);
         	history.push('/posts');

@@ -69,7 +69,7 @@ class UpdateComment extends Component {
         event.preventDefault();
         const { history } = this.props;
 
-        if (this.handleValidation(event) === true)
+        if (this.handleValidation(event) === false)
         {
 			this.props.editComment(this.state);
         	history.push('/posts/' + this.state.parentId);

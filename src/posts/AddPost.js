@@ -48,7 +48,7 @@ class AddPost extends Component {
         event.preventDefault();
         const { history } = this.props;
 
-        if (this.handleValidation(event) === true)
+        if (this.handleValidation(event) === false)
         {
 			const formValues = serialize(event.target, { hash: true });
 			const datetime = Date.now();
