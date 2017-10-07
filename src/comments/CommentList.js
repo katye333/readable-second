@@ -26,6 +26,11 @@ class CommentList extends Component {
     	nextProps.fetchComments(nextProps.postId);
     }
 
+    handleVote = (e, comment) => {
+        e.preventDefault();
+        this.props.voteComment(comment.id, e.currentTarget.id);
+    }
+
     handleSort(e) {
         const newSort = e.target.id;
         newSort === 'vote'
@@ -91,21 +96,25 @@ class CommentList extends Component {
 														justifyContent: 'center',
 														marginRight: '20px'
 													}}>
-													<span
-														className="fa fa-angle-up"
-														style={{
-															color: '#1fc51f',
-															fontSize: '36px'
-														}}>
-													</span>
-													<span style={{ fontSize: '18px', marginLeft: '5px' }}>{comment.voteScore}</span>
-													<span
-														className="fa fa-angle-down"
-														style={{
-															color: 'red',
-															fontSize: '36px'
-														}}>
-													</span>
+													<button type="button" id="upVote" className="w3-button w3-circle" onClick={(e) => this.handleVote(e, comment)}>
+														<span
+															className="fa fa-angle-up"
+															style={{
+																color: '#1fc51f',
+																fontSize: '36px'
+															}}>
+														</span>
+													</button>
+													<span style={{ fontSize: '18px', marginLeft: '20px' }}>{comment.voteScore}</span>
+													<button type="button" id="downVote" className="w3-button w3-circle" onClick={(e) => this.handleVote(e, comment)}>
+														<span
+															className="fa fa-angle-down"
+															style={{
+																color: 'red',
+																fontSize: '36px'
+															}}>
+														</span>
+													</button>
 												</div>
 											</div>
 										</div>

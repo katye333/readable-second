@@ -211,7 +211,7 @@ export function voteComment(commentId, option) {
     return dispatch => {
         dispatch(requestVoteComment(commentId, option))
 
-        return axios.post(`${url}/comments/${commentId}`, JSON.stringify(option), postHeaders)
+        return axios.post(`${url}/comments/${commentId}`, { option }, postHeaders)
            	.then(response => dispatch(receiveVoteComment(commentId, option, response.data)))
     }
 }

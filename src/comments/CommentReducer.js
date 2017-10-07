@@ -54,11 +54,35 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
             });
 
         case COMMENT_VOTE_RECEIVE:
-            return Object.assign({}, state, {
-                fetchingComments: false,
-                postId: action.postId,
-                comments: action.comments
-            });
+        	if (action.option === 'upVote') {
+        		return Object.assign({}, state, {
+        		    fetchingComments: false,
+        		    comments: state.comments.filter(comment => {
+        		        if (comment.id !== action.id) {
+        		            return comment;
+        		        }
+
+        		        return Object.assign({}, comment, {
+        		            voteScore: comment.voteScore += 1
+        		        })
+        		    })
+        		});
+        	}
+        	else if (action.option === 'downVote') {
+        		return Object.assign({}, state, {
+        		    fetchingComments: false,
+        		    comments: state.comments.filter(comment => {
+        		        if (comment.id !== action.id) {
+        		            return comment;
+        		        }
+
+        		        return Object.assign({}, comment, {
+        		            voteScore: comment.voteScore -= 1
+        		        })
+        		    })
+        		});
+        	}
+
 
         case COMMENT_ADD_REQUEST:
             return Object.assign({}, state, {

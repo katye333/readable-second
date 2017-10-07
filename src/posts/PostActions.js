@@ -158,7 +158,7 @@ export function votePost(postId, option) {
     return dispatch => {
         dispatch(requestVotePost(postId, option))
 
-        return axios.post(`${url}/posts/${postId}`, JSON.stringify(option), postHeaders)
+        return axios.post(`${url}/posts/${postId}`, { option }, postHeaders)
            	.then(response => dispatch(receiveVotePost(postId, option, response.data)))
     }
 }

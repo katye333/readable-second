@@ -9,7 +9,7 @@ import _ from 'lodash';
 class PostList extends Component {
     state = {
         voteLabel: "✔ By Vote Score",
-        timeLabel: "By Time"
+        timeLabel: "By Time",
     };
     componentDidMount() {
     	const category = this.props.match.params.path;

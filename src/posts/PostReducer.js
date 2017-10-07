@@ -76,11 +76,34 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
             });
 
         case POST_VOTE_RECEIVE:
-            return Object.assign({}, state, {
-                fetchingPosts: false,
-                option: action.option,
-                posts: action.posts
-            });
+            if (action.option === 'upVote') {
+        		return Object.assign({}, state, {
+        		    fetchingPosts: false,
+        		    posts: state.posts.filter(post => {
+        		        if (post.id !== action.id) {
+        		            return post;
+        		        }
+
+        		        return Object.assign({}, post, {
+        		            voteScore: post.voteScore += 1
+        		        })
+        		    })
+        		});
+        	}
+        	else if (action.option === 'downVote') {
+        		return Object.assign({}, state, {
+        		    fetchingPosts: false,
+        		    posts: state.posts.filter(post => {
+        		        if (post.id !== action.id) {
+        		            return post;
+        		        }
+
+        		        return Object.assign({}, post, {
+        		            voteScore: post.voteScore -= 1
+        		        })
+        		    })
+        		});
+        	}
 
         case POST_EDIT_REQUEST:
             return Object.assign({}, state, {
