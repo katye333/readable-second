@@ -49,9 +49,10 @@ function requestComments() {
     }
 }
 
-function receiveComments(json) {
+function receiveComments(postId, json) {
     return {
         type: COMMENT_RECEIVE,
+        postId: postId,
         comments: json
     };
 }
@@ -63,19 +64,19 @@ export function fetchComments(posts) {
         if (_.isObject(posts)) {
         	if (posts.posts.length === 1) {
         		return axios.get(`${url}/posts/${posts.posts.id}/comments`, getHeaders)
-        	        .then(response => dispatch(receiveComments(response.data)))
+        	        .then(response => dispatch(receiveComments(posts.id, response.data)))
         	        .then(json => dispatch(sortByVoteComments(json.comments)))
         	}
         	else if (posts.posts.length >= 1) {
         		for (let i = 0; i < posts.posts.length; i++) {
         			return axios.get(`${url}/posts/${posts.posts[i].id}/comments`, getHeaders)
-        	        	.then(response => dispatch(receiveComments(response.data)))
+        	        	.then(response => dispatch(receiveComments(posts.id, response.data)))
         		}
         	}
         }
         else {
         	return axios.get(`${url}/posts/${posts}/comments`, getHeaders)
-        	        .then(response => dispatch(receiveComments(response.data)))
+        	        .then(response => dispatch(receiveComments(posts, response.data)))
         	        .then(json => dispatch(sortByVoteComments(json.comments)))
         }
     }

@@ -19,7 +19,10 @@ class PostList extends Component {
     }
     handleVote = (e, post) => {
         e.preventDefault();
-        this.props.votePost(post.id, e.currentTarget.id);
+        const history = this.props.history;
+
+        this.props.votePost(post.id, e.currentTarget.id)
+        	.then(history.go('/post/' + post.id))
     }
     handleSort(e) {
         const newSort = e.target.id;

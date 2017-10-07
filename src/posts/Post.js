@@ -19,7 +19,6 @@ class Post extends Component {
 
     componentDidMount() {
         const postId = this.props.match.params.id;
-
         this.props.fetchPostById(postId)
         	.catch((e) => {
         		this.setState({ hasError: true })
@@ -39,7 +38,10 @@ class Post extends Component {
     }
     handleVote = (e, post) => {
         e.preventDefault();
-        this.props.votePost(post.id, e.currentTarget.id);
+        const history = this.props.history;
+
+        this.props.votePost(post.id, e.currentTarget.id)
+        	.then(history.go('/post/' + post.id))
     }
     commentCount(comments, postId) {
     	for (let comment in comments) {
@@ -57,7 +59,7 @@ class Post extends Component {
         if (this.state.showComments === true) {
         	commentContainer = <div>
 				<hr />
-				<CommentList history={this.props.history} postId={post.id} />
+				<CommentList history={this.props.history} post={post} />
 			</div>
         }
         else {

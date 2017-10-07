@@ -8,18 +8,11 @@ import './index.css';
 import App from './app/App';
 import reducer from './app/reducers'
 import registerServiceWorker from './registerServiceWorker';
+import { createLogger } from 'redux-logger';
 
-// Middleware
-const logger = store => next => action => {
-    // console.group(action.type);
-    // console.info('Dispatching:', action);
-
-    let result = next(action);
-    // console.log('New state:', store.getState());
-    // console.groupEnd(action.type);
-
-    return result;
-};
+const logger = createLogger({
+  // ...options
+});
 
 // Allow Middleware and Devtools
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

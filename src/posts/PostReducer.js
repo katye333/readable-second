@@ -84,8 +84,9 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
         		            return post;
         		        }
 
+        		        let newVote = post.voteScore += 1
         		        return Object.assign({}, post, {
-        		            voteScore: post.voteScore += 1
+        		            voteScore: newVote
         		        })
         		    })
         		});
@@ -98,8 +99,9 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
         		            return post;
         		        }
 
+        		        let newVote = post.voteScore -= 1
         		        return Object.assign({}, post, {
-        		            voteScore: post.voteScore -= 1
+        		            voteScore: newVote
         		        })
         		    })
         		});

@@ -62,8 +62,9 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
         		            return comment;
         		        }
 
+        		       	let newVote = comment.voteScore += 1
         		        return Object.assign({}, comment, {
-        		            voteScore: comment.voteScore += 1
+        		            voteScore: newVote
         		        })
         		    })
         		});
@@ -76,8 +77,9 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
         		            return comment;
         		        }
 
+        		        let newVote = comment.voteScore -= 1
         		        return Object.assign({}, comment, {
-        		            voteScore: comment.voteScore -= 1
+        		            voteScore: newVote
         		        })
         		    })
         		});
@@ -139,24 +141,27 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
                         return comment;
                     }
 
+                    let deleted = !comment.deleted
                     return Object.assign({}, comment, {
-                        deleted: !comment.deleted
+                        deleted: deleted
                     })
                 })
             });
 
         case COMMENT_SORT_VOTE:
+            let sortByVoteComments = _.sortBy(state.comments, 'voteScore').reverse()
             return Object.assign({}, state, {
                 fetchingComments: false,
                 sort: 'voteScore',
-                comments: _.sortBy(state.comments, 'voteScore').reverse()
+                comments: sortByVoteComments
             });
 
         case COMMENT_SORT_TIME:
+        	let sortByTimeComments = _.sortBy(state.comments, 'timestamp').reverse()
             return Object.assign({}, state, {
                 fetchingComments: false,
                 sort: 'timestamp',
-                comments: _.sortBy(state.comments, 'timestamp').reverse()
+                comments: sortByTimeComments
             });
 
         default:

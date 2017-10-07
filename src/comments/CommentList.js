@@ -13,7 +13,7 @@ class CommentList extends Component {
         didFireDeleteEvent: false
     };
     componentDidMount() {
-        this.props.fetchComments(this.props.postId);
+        this.props.fetchComments(this.props.post.id);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -23,12 +23,15 @@ class CommentList extends Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-    	nextProps.fetchComments(nextProps.postId);
+    	nextProps.fetchComments(nextProps.post.id);
     }
 
     handleVote = (e, comment) => {
         e.preventDefault();
-        this.props.voteComment(comment.id, e.currentTarget.id);
+        const history = this.props.history;
+
+        this.props.voteComment(comment.id, e.currentTarget.id)
+        	.then(history.go('/post/' + this.props.post.id))
     }
 
     handleSort(e) {
@@ -46,6 +49,11 @@ class CommentList extends Component {
 
     render() {
         const comments = this.props.comments.comments;
+
+        let noComments;
+        comments.length === 0
+        	? noComments = <span>No comments for this post</span>
+        	: <span></span>
 
         let loadingGif;
         this.props.comments.fetchingComments === true
@@ -130,6 +138,7 @@ class CommentList extends Component {
 							);
 						})
 					}
+					{noComments}
 				</ul>
 			</div>
         );
