@@ -69,7 +69,7 @@ class CommentList extends Component {
             		            			<a id="time" className="w3-bar-item w3-button" onClick={this.handleSort.bind(this)}>{this.state.timeLabel}</a>
             		            		</div>
             			            </div>
-            			            <Link to={'/'+ this.props.postId + '/newComment'} className="w3-bar-item w3-button w3-green w3-padding-large w3-right" style={{ fontSize: '18px' }}>
+            			            <Link to={'/'+ this.props.post.id + '/newComment'} className="w3-bar-item w3-button w3-green w3-padding-large w3-right" style={{ fontSize: '18px' }}>
             		            		<span className="fa fa-plus"></span>
             		            		&nbsp; New Comment
             		            	</Link>
