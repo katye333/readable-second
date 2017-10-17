@@ -17,9 +17,7 @@ class CommentList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-    	return this.state.didFireDeleteEvent === true
-    		? true
-    		: false
+    	return this.state.didFireDeleteEvent
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -41,10 +39,9 @@ class CommentList extends Component {
             : this.props.sortByTimeComments(this.props.comments) && this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
     }
     handleDelete(comment) {
-        const { history } = this.props;
-        this.props.deleteComment(comment.id);
-
-        this.setState({ didFireDeleteEvent: true });
+        const { history, post } = this.props;
+        this.props.deleteComment(comment.id)
+        	.then(history.go('/posts/' + post.id))
     }
 
     render() {

@@ -36,9 +36,9 @@ class Post extends Component {
             : this.setState({ showComments: false, commentButtonLabel: 'View Comments' })
     }
     handleDelete(post) {
-        const { history } = this.props;
-        this.props.deletePost(post.id);
-        history.push('/posts');
+        const history = this.props.history;
+        this.props.deletePost(post.id)
+        	.then(history.go('/post/' + post.id))
     }
     handleVote = (e, post) => {
         e.preventDefault();
