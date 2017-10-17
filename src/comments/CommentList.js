@@ -26,10 +26,10 @@ class CommentList extends Component {
 
     handleVote = (e, comment) => {
         e.preventDefault();
-        const history = this.props.history;
+        const { history, post } = this.props;
 
         this.props.voteComment(comment.id, e.currentTarget.id)
-        	.then(history.go('/post/' + this.props.post.id))
+        	.then(history.go('/categories/' + post.category + '/' + post.id))
     }
 
     handleSort(e) {
@@ -41,7 +41,7 @@ class CommentList extends Component {
     handleDelete(comment) {
         const { history, post } = this.props;
         this.props.deleteComment(comment.id)
-        	.then(history.go('/posts/' + post.id))
+        	.then(history.go('/categories/' + post.category + '/' + post.id))
     }
 
     render() {

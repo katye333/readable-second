@@ -40,8 +40,9 @@ class AddComment extends Component {
 	            parentDeleted: false,
 	        }, formValues);
 
+	        console.log(this.props)
 	        this.props.addComment(newPost);
-	        history.push('/posts/' + this.props.match.params.id);
+	        history.goBack();
         }
         else {
         	alert('Please fill in all required fields')

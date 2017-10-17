@@ -67,7 +67,7 @@ div.w3-container {
 .post_container
 {
 	height: 80% !important;
-	margin-bottom: 25%;
+	/*margin-bottom: 25%;*/
 }
 
 .post_scroll_container

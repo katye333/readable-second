@@ -72,7 +72,7 @@ class UpdateComment extends Component {
         if (this.handleValidation(event) === false)
         {
 			this.props.editComment(this.state);
-        	history.push('/posts/' + this.state.parentId);
+        	history.goBack();
         }
         else {
         	alert('Please fill in all required fields')

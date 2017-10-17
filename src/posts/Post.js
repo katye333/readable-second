@@ -38,19 +38,20 @@ class Post extends Component {
     handleDelete(post) {
         const history = this.props.history;
         this.props.deletePost(post.id)
-        	.then(history.go('/post/' + post.id))
+        	.then(history.go('/categories/' + post.category + '/' + post.id))
     }
     handleVote = (e, post) => {
         e.preventDefault();
         const history = this.props.history;
 
         this.props.votePost(post.id, e.currentTarget.id)
-        	.then(history.go('/post/' + post.id))
+        	.then(history.go('/categories/' + post.category + '/' + post.id))
     }
     commentCount(comments, postId) {
     	for (let comment in comments) {
-    		if (postId === comment)
+    		if (postId === comment) {
     			return comments[comment]
+    		}
     		else
     			return 0
     	}
@@ -71,7 +72,7 @@ class Post extends Component {
         }
 
         return (
-            <div className="w3-container post_form_container post_container">
+            <div className="w3-container post_form_container" style={{ marginLeft: '245px' }}>
             	{this.state.hasError === true
             		? 	<ErrorPage />
             		: 	(
@@ -107,14 +108,16 @@ class Post extends Component {
 										<div style={{ paddingBottom: '10px' }} className="flex_column">
 											<div style={{ flexDirection: 'row' }}>
 												<h1>
-													<Link
-														to={'/posts/'+ post.id}
-														style={{ textDecoration: 'none' }}>
-														{post.title}
-													</Link>
+													{post.title}
 												</h1>
 												<strong>Author: </strong>{post.author}
-												<h6>Comments: {this.commentCount(comments, post.id)}</h6>
+												<h6>Comments:&nbsp;
+													{
+														Object.keys(comments).length === 0
+															? 0
+															: this.commentCount(comments, post.id)
+													}
+												</h6>
 											</div>
 										</div>
 									</div>

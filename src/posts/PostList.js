@@ -103,7 +103,7 @@ class PostList extends Component {
 									<div style={{ paddingBottom: '10px' }} className="flex_column">
 										<div style={{ flexDirection: 'row' }}>
 											<h1><Link
-													to={'/posts/'+ post.id}
+													to={'/categories/'+ post.category +'/'+ post.id}
 													style={{ textDecoration: 'none' }}>
 													{post.title}
 												</Link>
@@ -118,7 +118,7 @@ class PostList extends Component {
 								<p>{post.body}</p>
 							</div>
 							<div className="w3-container w3-blue w3-padding-large">
-								<Link to={'/posts/'+ post.id} className="w3-button">View Details</Link>
+								<Link to={'/categories/'+ post.category +'/'+ post.id} className="w3-button">View Details</Link>
 							</div>
 						</div>
 					);

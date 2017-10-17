@@ -20,7 +20,7 @@ class App extends Component {
 	    		<Route exact path="/categories" component={ CategoryList } />
 	    		<Route path="/categories/:path" component={ PostList } />
 	    		<Route exact path="/posts" component={ PostList } />
-	    		<Route path="/posts/:id" component={ Post } />
+	    		<Route exact path="/categories/:path/:id" component={ Post } />
 				<Route exact path="/newPost" component={ AddPost } />
 				<Route path="/edit/:id" component={ UpdatePost } />
 				<Route path="/delete/:id" component={ PostList } />
