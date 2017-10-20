@@ -76,36 +76,37 @@ function posts(state = { fetchingPosts: false, posts: [] }, action) {
             });
 
         case POST_VOTE_RECEIVE:
-            if (action.option === 'upVote') {
-        		return Object.assign({}, state, {
-        		    fetchingPosts: false,
-        		    posts: state.posts.filter(post => {
-        		        if (post.id !== action.id) {
-        		            return post;
-        		        }
+        	return action.option === 'upVote'
+        		? 	(
+	        			Object.assign({}, state, {
+		        		    fetchingPosts: false,
+		        		    posts: state.posts.filter(post => {
+		        		        if (post.id !== action.id) {
+		        		            return post;
+		        		        }
 
-        		        let newVote = post.voteScore += 1
-        		        return Object.assign({}, post, {
-        		            voteScore: newVote
-        		        })
-        		    })
-        		});
-        	}
-        	else if (action.option === 'downVote') {
-        		return Object.assign({}, state, {
-        		    fetchingPosts: false,
-        		    posts: state.posts.filter(post => {
-        		        if (post.id !== action.id) {
-        		            return post;
-        		        }
+		        		        let newVote = post.voteScore += 1
+		        		        return Object.assign({}, post, {
+		        		            voteScore: newVote
+		        		        })
+		        		    })
+		        		})
+		        	)
+        		: 	(
+        				Object.assign({}, state, {
+        				    fetchingPosts: false,
+        				    posts: state.posts.filter(post => {
+        				        if (post.id !== action.id) {
+        				            return post;
+        				        }
 
-        		        let newVote = post.voteScore -= 1
-        		        return Object.assign({}, post, {
-        		            voteScore: newVote
-        		        })
-        		    })
-        		});
-        	}
+        				        let newVote = post.voteScore -= 1
+        				        return Object.assign({}, post, {
+        				            voteScore: newVote
+        				        })
+        				    })
+        				})
+        			)
 
         case POST_EDIT_REQUEST:
             return Object.assign({}, state, {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import * as actions from '../posts/PostActions';
 import { fetchPostById, deletePost, votePost, sortByTimePosts, sortByVotePosts } from '../posts/PostActions';
 import { formatDate } from '../utils/helpers';
 import { fetchComments } from '../comments/CommentActions';

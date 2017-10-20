@@ -54,36 +54,37 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
             });
 
         case COMMENT_VOTE_RECEIVE:
-        	if (action.option === 'upVote') {
-        		return Object.assign({}, state, {
-        		    fetchingComments: false,
-        		    comments: state.comments.filter(comment => {
-        		        if (comment.id !== action.id) {
-        		            return comment;
-        		        }
+        	return action.option === 'upVote'
+        		? 	(
+	        			Object.assign({}, state, {
+		        		    fetchingComments: false,
+		        		    comments: state.comments.filter(comment => {
+		        		        if (comment.id !== action.id) {
+		        		            return comment;
+		        		        }
 
-        		       	let newVote = comment.voteScore += 1
-        		        return Object.assign({}, comment, {
-        		            voteScore: newVote
-        		        })
-        		    })
-        		});
-        	}
-        	else if (action.option === 'downVote') {
-        		return Object.assign({}, state, {
-        		    fetchingComments: false,
-        		    comments: state.comments.filter(comment => {
-        		        if (comment.id !== action.id) {
-        		            return comment;
-        		        }
+		        		        let newVote = comment.voteScore += 1
+		        		        return Object.assign({}, comment, {
+		        		            voteScore: newVote
+		        		        })
+		        		    })
+		        		})
+		        	)
+        		: 	(
+        				Object.assign({}, state, {
+        				    fetchingComments: false,
+        				    comments: state.comments.filter(comment => {
+        				        if (comment.id !== action.id) {
+        				            return comment;
+        				        }
 
-        		        let newVote = comment.voteScore -= 1
-        		        return Object.assign({}, comment, {
-        		            voteScore: newVote
-        		        })
-        		    })
-        		});
-        	}
+        				        let newVote = comment.voteScore -= 1
+        				        return Object.assign({}, comment, {
+        				            voteScore: newVote
+        				        })
+        				    })
+        				})
+        			)
 
 
         case COMMENT_ADD_REQUEST:
@@ -149,19 +150,17 @@ function comments(state = { fetchingComments: false, comments: [] }, action) {
             });
 
         case COMMENT_SORT_VOTE:
-            let sortByVoteComments = _.sortBy(state.comments, 'voteScore').reverse()
             return Object.assign({}, state, {
                 fetchingComments: false,
                 sort: 'voteScore',
-                comments: sortByVoteComments
+                comments: _.sortBy(state.comments, 'voteScore').reverse()
             });
 
         case COMMENT_SORT_TIME:
-        	let sortByTimeComments = _.sortBy(state.comments, 'timestamp').reverse()
             return Object.assign({}, state, {
                 fetchingComments: false,
                 sort: 'timestamp',
-                comments: sortByTimeComments
+                comments: _.sortBy(state.comments, 'timestamp').reverse()
             });
 
         default:

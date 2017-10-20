@@ -14,8 +14,7 @@ import {
     COMMENT_DELETE_REQUEST,
     COMMENT_DELETE_RECEIVE,
     COMMENT_SORT_VOTE,
-    COMMENT_SORT_TIME,
-    COMMENT_COUNT
+    COMMENT_SORT_TIME
 } from '../app/types';
 
 const url = 'http://localhost:5001';

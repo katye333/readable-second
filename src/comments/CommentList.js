@@ -17,7 +17,7 @@ class CommentList extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-    	return this.state.didFireDeleteEvent
+    	return this.state.didFireDeleteEvent || this.state.sort !== nextState.sort
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -34,9 +34,22 @@ class CommentList extends Component {
 
     handleSort(e) {
         const newSort = e.target.id;
-        newSort === 'vote'
-            ? this.props.sortByVoteComments(this.props.comments) && this.setState({ voteLabel: '✔ By Vote Score', timeLabel: 'By Time' })
-            : this.props.sortByTimeComments(this.props.comments) && this.setState({ voteLabel: 'By Vote Score', timeLabel: '✔ By Time' })
+        if (newSort === 'vote') {
+        	this.props.sortByVoteComments(this.props.comments.comments)
+        	this.setState({
+        		voteLabel: '✔ By Vote Score',
+        		timeLabel: 'By Time',
+        		sort: 'vote'
+        	})
+        }
+		else {
+			this.props.sortByTimeComments(this.props.comments.comments)
+			this.setState({
+				voteLabel: 'By Vote Score',
+				timeLabel: '✔ By Time',
+				sort: 'time'
+			})
+		}
     }
     handleDelete(comment) {
         const { history, post } = this.props;
@@ -48,9 +61,10 @@ class CommentList extends Component {
         const comments = this.props.comments.comments;
 
         let noComments;
-        comments.length === 0
-        	? noComments = <span>No comments for this post</span>
-        	: <span></span>
+        if (comments.length === 0)
+        	noComments = <span>No comments for this post</span>
+        else
+        	noComments = <span></span>
 
         let loadingGif;
         this.props.comments.fetchingComments === true

@@ -8,6 +8,8 @@ class ErrorPage extends Component {
 				<div className="w3-panel w3-red">
 				    <h3>Error 404</h3>
 				    <p>The page you were looking for is no longer available.</p>
+
+				    <Link to={'/'} className="w3-btn w3-blue">Home</Link>
 				  </div>
 			</div>
 		)

@@ -11,7 +11,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { createLogger } from 'redux-logger';
 
 const logger = createLogger({
-  // ...options
+	// ...options
 });
 
 // Allow Middleware and Devtools
