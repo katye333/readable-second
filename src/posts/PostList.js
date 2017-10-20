@@ -42,6 +42,12 @@ class PostList extends Component {
         const posts = this.props.posts.posts;
         let comments = _.countBy(this.props.comments, 'parentId');
 
+        let noPosts;
+        if (posts.length === 0)
+        	noPosts = <span>No posts in this category</span>
+        else
+        	noPosts = <span></span>
+
         let loadingGif;
         this.props.posts.fetchingPosts === true
         	? loadingGif = 	<ReactLoading type='spin' color='black' height='334' width='175' />
@@ -129,6 +135,8 @@ class PostList extends Component {
 						</div>
 					);
 				})}
+
+				{noPosts}
 			</div>
         );
     }
