@@ -62,7 +62,7 @@ export function fetchComments(posts) {
 
         if (_.isObject(posts)) {
         	if (posts.posts.length === 1) {
-        		return axios.get(`${url}/posts/${posts.posts.id}/comments`, getHeaders)
+        		return axios.get(`${url}/posts/${posts.posts[0].id}/comments`, getHeaders)
         	        .then(response => dispatch(receiveComments(posts.id, response.data)))
         	        .then(json => dispatch(sortByVoteComments(json.comments)))
         	}

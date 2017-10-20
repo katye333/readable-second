@@ -40,7 +40,7 @@ class PostList extends Component {
     }
     render() {
         const posts = this.props.posts.posts;
-        let comments = _.countBy(this.props.comments, 'parentId')
+        let comments = _.countBy(this.props.comments, 'parentId');
 
         let loadingGif;
         this.props.posts.fetchingPosts === true
@@ -109,7 +109,13 @@ class PostList extends Component {
 												</Link>
 											</h1>
 											<strong>Author: </strong>{post.author}
-											<h6>Comments: {this.commentCount(comments, post.id)}</h6>
+											<h6>Comments:&nbsp;
+												{
+													Object.keys(comments).length === 0
+														? 0
+														: this.commentCount(comments, post.id)
+												}
+											</h6>
 										</div>
 									</div>
 								</div>
