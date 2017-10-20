@@ -18,14 +18,14 @@ class App extends Component {
 	    		<Route path="/" component={ Home } />
 	    		<Route exact path="/" component={ CategoryList } />
 	    		<Route exact path="/categories" component={ CategoryList } />
-	    		<Route path="/categories/:path" component={ PostList } />
+	    		<Route exact path="/categories/:path" component={ PostList } />
 	    		<Route exact path="/posts" component={ PostList } />
 	    		<Route exact path="/categories/:path/:id" component={ Post } />
 				<Route exact path="/newPost" component={ AddPost } />
-				<Route path="/edit/:id" component={ UpdatePost } />
-				<Route path="/delete/:id" component={ PostList } />
-				<Route path="/:id/newComment" component={ AddComment } />
-				<Route path="/comments/edit/:commentId" component={ UpdateComment } />
+				<Route exact path="/edit/:id" component={ UpdatePost } />
+				<Route exact path="/delete/:id" component={ PostList } />
+				<Route exact path="/:id/newComment" component={ AddComment } />
+				<Route exact path="/comments/edit/:commentId" component={ UpdateComment } />
 	    	</div>
         );
     }
