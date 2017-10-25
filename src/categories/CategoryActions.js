@@ -4,7 +4,7 @@ import {
     CATEGORY_RECEIVE,
 } from '../app/types';
 
-const url = 'http://localhost:5001';
+const url = 'https://readable-backend.appspot.com';
 
 // Generate a unique token for storing your bookshelf data on the backend server.
 let token = localStorage.token;
